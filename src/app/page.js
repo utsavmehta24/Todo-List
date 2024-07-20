@@ -1,3 +1,6 @@
+import MainFeatures from "./Mainpage/Features";
+import IntroBanner from "./Mainpage/IntroBanner";
+import Slider from "./Mainpage/SliderInfo";
 
 export const metadata = {
   title: "Home : Gerneral Todo's",
@@ -6,9 +9,9 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      <div>
-        <h1>Home jbsdkn ldsknfls dls s n </h1>
-      </div>
+    <IntroBanner /> 
+    <MainFeatures />
+    <Slider />
     </>
   );
 }

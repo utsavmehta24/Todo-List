@@ -13,28 +13,33 @@ const Signup_Page_Client = () => {
                         </div>
                     </div>
                     <div className="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-2xl lg:mt-0 lg:w-5/12">
-                        <div className="flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-gray-700 shadow-2xl rounded-xl relative z-10">
-                            <p className="w-full text-4xl font-medium text-center leading-snug font-serif text-white">Sign up for an account</p>
-                            <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
-                                <div className="relative">
-                                    <p className="bg-gray-700 pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-300 absolute">Username</p>
-                                    <input placeholder="John" type="text" className="border placeholder-gray-400 focus:outline-none focus:border-white w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-gray-700 text-white border-gray-300 rounded-md" />
-                                </div>
-                                <div className="relative">
-                                    <p className="bg-gray-700 pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-300 absolute">Email</p>
-                                    <input placeholder="123@ex.com" type="text" className="border placeholder-gray-400 focus:outline-none focus:border-white w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-gray-700 text-white border-gray-300 rounded-md" />
-                                </div>
-                                <div className="relative">
-                                    <p className="bg-gray-700 pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-300 absolute">Password</p>
-                                    <input placeholder="Password" type="password" className="border placeholder-gray-400 focus:outline-none focus:border-white w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-gray-700 text-white border-gray-300 rounded-md" />
-                                </div>
-                                <div className="relative">
-                                    <Link href="#" className="w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500 rounded-lg transition duration-200 hover:bg-indigo-600 ease">
-                                        Submit
-                                    </Link>
+                        <form action="#!" >
+                            <div className="flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-gray-700 shadow-2xl rounded-xl relative z-10">
+                                <p className="w-full text-4xl font-medium text-center leading-snug font-serif text-white">Sign up for an account</p>
+                                <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
+                                    {/* for name */}
+                                    <div className="relative">
+                                        <label htmlFor='user_name' className="bg-gray-700 pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-300 absolute">Username</label>
+                                        <input id='user_name' placeholder="Enter Your name here" type="text" className="border placeholder-gray-400 focus:outline-none focus:border-white w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-gray-700 text-white border-gray-300 rounded-md" />
+                                    </div>
+                                    {/* for email  */}
+                                    <div className="relative">
+                                        <label htmlFor='user_email' className="bg-gray-700 pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-300 absolute">Email</label>
+                                        <input id='user_email' placeholder="123@ex.com" type="email" className="border placeholder-gray-400 focus:outline-none focus:border-white w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-gray-700 text-white border-gray-300 rounded-md" />
+                                    </div>
+                                    {/* for password  */}
+                                    <div className="relative">
+                                        <label htmlFor='user_password' className="bg-gray-700 pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-300 absolute">Password</label>
+                                        <input id='user_password' placeholder="Password" type="password" className="border placeholder-gray-400 focus:outline-none focus:border-white w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-gray-700 text-white border-gray-300 rounded-md" />
+                                    </div>
+                                    <div className="relative">
+                                        <Link href="#" className="w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500 rounded-lg transition duration-200 hover:bg-indigo-600 ease">
+                                            Submit
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                         <svg viewBox="0 0 91 91" className="absolute top-0 left-0 z-0 w-32 h-32 -mt-12 -ml-12 text-yellow-300 fill-current">
                             <g stroke="none" strokeWidth="1" fillRule="evenodd">
                                 <g fillRule="nonzero">
@@ -210,7 +215,7 @@ const Signup_Page_Client = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
