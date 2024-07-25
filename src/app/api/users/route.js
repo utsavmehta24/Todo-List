@@ -2,6 +2,9 @@ import { connectDb } from "@/helper/db";
 import { user } from "@/model/user";
 import { NextResponse } from "next/server";
 import * as bcrypt from 'bcrypt';
+require('dotenv').config();
+
+// console.log('BCRYPT_SALT:', process.env.BCRYPT_SALT); // Debugging line
 
 connectDb();
 
@@ -32,11 +35,8 @@ export async function POST(request) {
     });
 
     try {
-        // console.log(process.env.BCRYPT_SALT);
-
-        //coming error that the env file is not being able to fetch the BCRYPT_SALT 
-        NewUser.password = await bcrypt.hash(NewUser.password, await process.env.BCRYPT_SALT);
-        // console.log(NewUser.password);
+        const saltRounds = parseInt(process.env.BCRYPT_SALT);
+        NewUser.password = await bcrypt.hash(NewUser.password, saltRounds);
 
         // Save the new user to the database
         await NewUser.save();
@@ -51,7 +51,6 @@ export async function POST(request) {
             status: false,
         }, {
             status: 500,
-        }
-        );
+        });
     }
 }

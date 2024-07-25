@@ -1,11 +1,11 @@
-async function takeTime(){
-    await new Promise((resolve) => {
-        setTimeout(resolve, 3000);
-    });
-};
+// async function takeTime(){
+//     await new Promise((resolve) => {
+//         setTimeout(resolve, 3000);
+//     });
+// };
 
 export default async function Utsav() {
-    await takeTime();
+    // await takeTime();
     // throw Error('Something went wrong');
     return (
         <div className="flex items-center justify-center flex-col p-24">

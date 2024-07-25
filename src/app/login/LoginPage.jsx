@@ -1,10 +1,12 @@
 "use client";
 import React, { useState } from 'react'
-
-
+import { toast } from 'react-toastify';
+import { logIn } from '../Services/userService';
+import { useRouter } from 'next/navigation';
 
 
 const loginpage = () => {
+    const router = useRouter()
     const [submitData, setSubmitData] = useState({
         email: "",
         password: "",
@@ -12,7 +14,7 @@ const loginpage = () => {
 
     const handleSubmitData = async (event) => {
         event.preventDefault();
-        console.log(submitData);
+        // console.log(submitData);
         if (submitData.email.trim() === "" || submitData.email == null) {
             toast.warning("Email is required", {
                 position: 'top-center',
@@ -23,7 +25,7 @@ const loginpage = () => {
                 draggable: true,
                 progress: undefined,
             });
-            return
+            return;
         }
         if (submitData.password.trim() === "" || submitData.password == null) {
             toast.warning("Password is required", {
@@ -35,7 +37,32 @@ const loginpage = () => {
                 draggable: true,
                 progress: undefined,
             });
-            return
+            return;
+        }
+        try {
+            const result = await logIn(submitData);
+            toast.success("Login Success!!", {
+                position: 'top-center',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+            // console.log(result);
+            router.push("/Dashboard");
+        } catch (error) {
+            // console.log(error);
+            toast.error(error.response.data.message, {
+                position: 'top-center',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         }
     }
 
@@ -50,15 +77,15 @@ const loginpage = () => {
                     </div>
                     <div className="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-2xl lg:mt-0 lg:w-5/12">
                         <div className="flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-gray-700 shadow-2xl rounded-xl relative z-10">
-                            <form action="#!">
+                            <form onSubmit={handleSubmitData}>
                                 <p className="w-full text-4xl font-medium text-center leading-snug font-serif text-white">Login In for an account</p>
                                 <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
                                     <div className="relative">
                                         <p className="bg-gray-700 pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-300 absolute">Email</p>
                                         <input placeholder="123@ex.com" type="text" className="border placeholder-gray-400 focus:outline-none focus:border-white w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-gray-700 text-white border-gray-300 rounded-md"
                                             name='email'
-                                            onChange={(e) => setSumbitData({
-                                                ...sumbitData, email: e.target.value
+                                            onChange={(e) => setSubmitData({
+                                                ...submitData, email: e.target.value
                                             })}
                                             value={submitData.email} />
                                     </div>
@@ -67,14 +94,15 @@ const loginpage = () => {
                                         <input className="border placeholder-gray-400 focus:outline-none focus:border-white w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-gray-700 text-white border-gray-300 rounded-md"
                                             name='password'
                                             onChange={(e) => setSubmitData({ ...submitData, password: e.target.value })} placeholder="Password" type="password"
-                                            value={submitData.password}/>
+                                            value={submitData.password} />
                                     </div>
                                     <div className="relative">
-                                        <button onSubmit={handleSubmitData} className="w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500 rounded-lg transition duration-200 hover:bg-indigo-600 ease">
+                                        <button type="submit" className="w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500 rounded-lg transition duration-200 hover:bg-indigo-600 ease">
                                             Submit
                                         </button>
                                     </div>
                                 </div>
+                                {/* {JSON.stringify(submitData)} */}
                             </form>
                         </div>
                         <svg viewBox="0 0 91 91" className="absolute top-0 left-0 z-0 w-32 h-32 -mt-12 -ml-12 text-yellow-300 fill-current">

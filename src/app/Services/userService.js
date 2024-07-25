@@ -6,3 +6,10 @@ export async function signUp(user) {
     })
     return result;
 }
+
+export async function logIn(user) {
+    const result = await httpAxios.post("/api/login", user).then((res) => {
+        return res.data
+    })
+    return result;
+}
