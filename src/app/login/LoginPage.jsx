@@ -1,70 +1,86 @@
 "use client";
-import React, { useState } from 'react'
-import { toast } from 'react-toastify';
-import { logIn } from '../Services/userService';
-import { useRouter } from 'next/navigation';
-
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const loginpage = () => {
-    const router = useRouter()
-    const [submitData, setSubmitData] = useState({
-        email: "",
-        password: "",
-    })
+  const router = useRouter();
+  const [submitData, setSubmitData] = useState({
+    email: "",
+    password: "",
+  });
 
-    const handleSubmitData = async (event) => {
-        event.preventDefault();
-        // console.log(submitData);
-        if (submitData.email.trim() === "" || submitData.email == null) {
-            toast.warning("Email is required", {
-                position: 'top-center',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return;
-        }
-        if (submitData.password.trim() === "" || submitData.password == null) {
-            toast.warning("Password is required", {
-                position: 'top-center',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return;
-        }
-        try {
-            const result = await logIn(submitData);
-            toast.success("Login Success!!", {
-                position: 'top-center',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            })
-            // console.log(result);
-            router.push("/Dashboard");
-        } catch (error) {
-            // console.log(error);
-            toast.error(error.response.data.message, {
-                position: 'top-center',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            })
-        }
+  const handleSubmitData = async (event) => {
+    event.preventDefault();
+    if (submitData.email.trim() === "" || submitData.email == null) {
+      toast.warning("Email is required", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
     }
+    if (submitData.password.trim() === "" || submitData.password == null) {
+      toast.warning("Password is required", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(submitData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success("Login Success!!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        router.push("/Dashboard");
+      } else {
+        toast.error(result.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
 
     return (
         <div className="bg-gray-800 relative lg:py-20">

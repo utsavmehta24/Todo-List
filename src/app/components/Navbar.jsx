@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Link from 'next/link';
+import UserContext from '../context/userContext';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -9,6 +10,8 @@ const Navbar = () => {
         setIsOpen(!isOpen);
     };
 
+    const context =  useContext(UserContext);
+    console.log(context);
     return (
         <nav className="bg-gray-800 p-4">
             <div className="container mx-auto flex justify-between items-center">

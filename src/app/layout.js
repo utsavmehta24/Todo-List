@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
+import UserProviderFunction from "./context/userProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,12 +23,12 @@ export default function RootLayout({ children }) {
         />
       </Head>
       <body className={inter.className}>
-        < ToastContainer />
-        <Navbar />
-
-        {/* <p className="text-black text-5xl font-bold text-center ms-auto">Hi How are you</p> */}
-        {children}
-        <Footer />
+        <UserProviderFunction>
+          < ToastContainer />
+          <Navbar />
+          {children}
+          <Footer />
+        </UserProviderFunction>
       </body>
     </html >
   );
