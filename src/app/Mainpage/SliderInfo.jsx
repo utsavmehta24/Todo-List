@@ -16,27 +16,40 @@ export default function Slider() {
       }
 
       slider.scrollTo({ left: currentLeft, behavior: 'smooth' });
-    }, 2000);
+    }, 3000); // Adjusted interval for better viewing experience
 
     return () => clearInterval(interval); // Clean up the interval on component unmount
   }, []);
 
   return (
-    <div className="h-screen w-full overflow-hidden flex flex-nowrap text-center" id="slider">
-      <div className="bg-blue-600 text-white space-y-4 flex-none w-full flex flex-col items-center justify-center">
-        <h2 className="text-4xl max-w-md">Your Big Idea</h2>
-        <p className="max-w-md">It's fast, flexible, and reliable — with zero-runtime.</p>
+    <div className="h-screen w-full overflow-hidden flex flex-nowrap text-center rounded" id="slider">
+      {/* Slide 1 */}
+      <div className="relative bg-gray-800 flex-none w-full flex flex-col items-center justify-center">
+        <img src="https://th.bing.com/th/id/OIG3.rcqbtX.HXmil.rRhEOWn?pid=ImgGn" alt="Missed Deadlines" className="absolute inset-0 object-cover blur-md" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+          <h2 className="text-4xl max-w-md">Missed Deadlines</h2>
+          <p className="max-w-md">Not managing your tasks effectively often results in missed deadlines and lost opportunities.</p>
+        </div>
       </div>
-      <div className="bg-pink-400 text-white space-y-4 flex-none w-full flex flex-col items-center justify-center">
-        <h2 className="text-4xl max-w-md">Tailwind CSS works by scanning all of your HTML</h2>
-        <p className="max-w-md">It's fast, flexible, and reliable — with zero-runtime.</p>
+      {/* Slide 2 */}
+      <div className="relative bg-gray-700 flex-none w-full flex flex-col items-center justify-center">
+        <img src="https://th.bing.com/th/id/OIG3.ngaKfhg2nF4xz1zRgOKG?pid=ImgGn" alt="Increased Stress" className="absolute inset-0 object-cover blur-md" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+          <h2 className="text-4xl max-w-md">Increased Stress</h2>
+          <p className="max-w-md">Failure to keep track of your tasks can lead to increased stress and anxiety as deadlines approach.</p>
+          <p className="max-w-md mt-4">Stress can manifest physically and emotionally, affecting your overall well-being.</p>
+        </div>
       </div>
-      <div className="bg-teal-500 text-white space-y-4 flex-none w-full flex flex-col items-center justify-center">
-        <h2 className="text-4xl max-w-md">React, Vue, and HTML</h2>
-        <p className="max-w-md">
-          Accessible, interactive examples for React and Vue powered by Headless UI, plus vanilla HTML if you’d rather write any necessary JS yourself.
-        </p>
+      {/* Slide 3 */}
+      <div className="relative bg-gray-600 flex-none w-full flex flex-col items-center justify-center">
+        <img src="https://th.bing.com/th/id/OIG3.5Dhp5.Qk7oNZ9R4PrObt?pid=ImgGn" alt="Decreased Productivity" className="absolute inset-0 object-cover blur-md" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+          <h2 className="text-4xl max-w-md">Decreased Productivity</h2>
+          <p className="max-w-md">When tasks are not organized, productivity decreases as time is wasted trying to remember what needs to be done.</p>
+        </div>
       </div>
+      {/* Slide 4 */}
+      {/* ... other slides ... */}
     </div>
   );
 }

@@ -7,7 +7,7 @@ export function middleware(request) {
     const { pathname } = request.nextUrl;
 
     const isLoginOrSignup = pathname === "/login" || pathname === "/signup";
-    const isTaskPage = pathname === "/addtask" || pathname === "/showtask";
+    const isTaskPage = pathname === "/addtask" || pathname === "/showtask" || pathname === "/Dashboard";
 
     if (authToken) {
         // Redirect logged-in users away from login and signup pages

@@ -9,7 +9,7 @@ const Addtask = () => {
   const [task, setTask] = useState({
     title: "",
     description: "",
-    status: "none",
+    status: "pending",
     userId: "6696b6eb7453fe0af988a135"
   });
 
@@ -32,7 +32,7 @@ const Addtask = () => {
       setTask({
         title: "",
         description: "",
-        status: "none",
+        status: "pending",
         userId: "6696b6eb7453fe0af988a135"
       });
     } catch (error) {
@@ -83,12 +83,13 @@ const Addtask = () => {
               <select
                 className="w-full h-12 pl-5 mb-4 text-sm text-gray-300 bg-gray-700 rounded shadow-inner outline-none"
                 name="status"
+                id="status"
                 onChange={(e) => setTask({ ...task, status: e.target.value })}
                 value={task.status}
               >
                 <option value="none" disabled>-- Select Options --</option>
-                <option value="Pending">Pending</option>
-                <option value="Completed">Completed</option>
+                <option value="pending">Pending</option>
+                <option value="completed">Completed</option>
               </select>
               <div className="flex justify-space-between w-full">
                 <button className="w-full h-10 mt-5 m-1 text-white bg-blue-500 rounded-full shadow hover:shadow-none font-extrabold transition-shadow duration-500">

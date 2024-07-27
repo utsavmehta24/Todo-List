@@ -20,3 +20,10 @@ export async function curentUser() {
     })
     return result;
 }
+
+export async function logOut() {
+    const result = await httpAxios.post("/api/logout").then((res) => {
+        return res.data
+    })
+    return result;
+}

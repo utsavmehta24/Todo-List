@@ -1,17 +1,34 @@
 "use client";
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Link from 'next/link';
-import UserContext from '../context/userContext';
+import UserContext from '@/context/userContext';
+import { logOut } from '../Services/userService';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+
 
 const Navbar = () => {
+    const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
+    const context = useContext(UserContext);
+    const { user, setUser } = context;
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
 
-    const context =  useContext(UserContext);
-    console.log(context);
+    const doLogout = async () => {
+        try {
+            await logOut();
+            setUser(null);  // This should trigger a re-render
+        } catch (error) {
+            console.error(error);
+            toast.error("Error while Logging Out !!");
+        }
+        router.push('/');
+    };
+
+
     return (
         <nav className="bg-gray-800 p-4">
             <div className="container mx-auto flex justify-between items-center">
@@ -39,13 +56,26 @@ const Navbar = () => {
                     </span>
                 </div>
                 <div className='hidden md:flex space-x-4'>
-                    <span className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
-                        <Link href="/login">Login</Link>
-                    </span>
+                    {user && user.name ? (
+                        <>
+                            <span className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
+                                <Link href="/Dashboard">{user.name}</Link>
+                            </span>
 
-                    <span className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
-                        <Link href="/signup">Signup</Link>
-                    </span>
+                            <span className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
+                                <button onClick={doLogout}>Logout</button>
+                            </span>
+                        </>
+                    ) : (
+                        <>
+                            <span className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
+                                <Link href="/login">Login</Link>
+                            </span>
+                            <span className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
+                                <Link href="/signup">Sign Up</Link>
+                            </span>
+                        </>
+                    )}
                 </div>
                 <button
                     className="text-white md:hidden focus:outline-none"
@@ -77,38 +107,55 @@ const Navbar = () => {
                 </button>
             </div>
             {isOpen && (
-                <div className="md:hidden flex flex-col px-2 py-1 space-y-1 bg-gray-800 rounded">
-                    <Link href="/">
-                        <span className="flex group text-2xl px-1 py-1 m-2 text-white m-1.5 p-2" onClick={toggleMenu}>
-                            Home
-                        </span>
-                    </Link>
-                
-                    <Link href="/addtask">
-                        <span className="flex group text-2xl px-1 py-1 m-2 text-white m-1.5 p-2" onClick={toggleMenu}>
-                            Add Task
-                        </span>
-                    </Link>
-                
-                    <Link href="/showtask">
-                        <span className="flex group text-2xl px-1 py-1 m-2 text-white m-1.5 p-2" onClick={toggleMenu}>
-                            Show Task
-                        </span>
-                    </Link>
-                
-                    <Link href="/login">
-                        <span className="flex group text-2xl m-0 text-black border-2 rounded border-fit-content m-2 text-white m-1.5 p-2" onClick={toggleMenu}>
-                            Login
-                        </span>
-                    </Link>
-                
-                    <Link href="/signup">
-                        <span className="flex group text-2xl m-0 text-black border-2 rounded border-fit-content m-2 text-white m-1.5 p-2" onClick={toggleMenu}>
-                            Signup
-                        </span>
-                    </Link>
-                </div>
-            )}
+    <div className="md:hidden flex flex-col px-2 py-1 space-y-1 bg-gray-800 rounded">
+        <Link href="/">
+            <span className="flex group text-2xl px-1 py-1 m-2 text-white m-1.5 p-2" onClick={toggleMenu}>
+                Home
+            </span>
+        </Link>
+
+        <Link href="/addtask">
+            <span className="flex group text-2xl px-1 py-1 m-2 text-white m-1.5 p-2" onClick={toggleMenu}>
+                Add Task
+            </span>
+        </Link>
+
+        <Link href="/showtask">
+            <span className="flex group text-2xl px-1 py-1 m-2 text-white m-1.5 p-2" onClick={toggleMenu}>
+                Show Task
+            </span>
+        </Link>
+
+        {user && user.name ? (
+            <>
+                <Link href="/Dashboard">
+                    <span className="flex group text-2xl px-1 py-1 m-2 text-white m-1.5 p-2" onClick={toggleMenu}>
+                        {user.name}
+                    </span>
+                </Link>
+
+                <span className="flex group text-2xl px-1 py-1 m-2 text-white m-1.5 p-2 cursor-pointer" onClick={doLogout}>
+                    Logout
+                </span>
+            </>
+        ) : (
+            <>
+                <Link href="/login">
+                    <span className="flex group text-2xl px-1 py-1 m-2 text-white m-1.5 p-2" onClick={toggleMenu}>
+                        Login
+                    </span>
+                </Link>
+
+                <Link href="/signup">
+                    <span className="flex group text-2xl px-1 py-1 m-2 text-white m-1.5 p-2" onClick={toggleMenu}>
+                        Signup
+                    </span>
+                </Link>
+            </>
+        )}
+    </div>
+)}
+
         </nav>
     );
 };

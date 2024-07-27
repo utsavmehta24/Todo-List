@@ -2,8 +2,10 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import { signUp } from '../Services/userService';
+import { useRouter } from 'next/navigation';
 
 const Signup_Page_Client = () => {
+    const router = useRouter();
     const [sumbitData, setSumbitData] = useState({
         name: "",
         email: "",
@@ -66,6 +68,7 @@ const Signup_Page_Client = () => {
                 email: "",
                 password: "",
             })
+            router.push("/login");
         } catch (error) {
             console.log(error);
             // console.log(error.response.data.message);

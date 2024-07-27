@@ -1,5 +1,6 @@
 import React from 'react'
-import Link from 'next/link';
+import ShowTaskPage from './showTask';
+
 
 export const metadata = {
     title: "Todo : Show Task",
@@ -8,9 +9,7 @@ export const metadata = {
 
 
 const showtask = () => {
-    return (
-        <h1>showtask</h1>
-    )
+    return <ShowTaskPage />;
 
 }
 

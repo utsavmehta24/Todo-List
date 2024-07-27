@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import * as bcrypt from 'bcrypt';
 require('dotenv').config();
 
-// console.log('BCRYPT_SALT:', process.env.BCRYPT_SALT); // Debugging line
+
 
 connectDb();
 
@@ -54,3 +54,4 @@ export async function POST(request) {
         });
     }
 }
+
