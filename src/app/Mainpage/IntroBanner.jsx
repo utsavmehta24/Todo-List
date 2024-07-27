@@ -24,16 +24,16 @@ export default function IntroBanner() {
               Once a time we live but always live life to the fullest....
             </p>
             <div className="flex justify-center lg:justify-start mt-6">
-              <Link href="/login">
-                <p className="px-4 py-3 bg-gray-700  text-gray-200 text-xs font-semibold rounded hover:bg-gray-600">
+              <p className="px-4 py-3 bg-gray-700  text-gray-200 text-xs font-semibold rounded hover:bg-gray-600">
+                <Link href="/login">
                   Login
-                </p>
-              </Link>
-              <Link href="/signup">
-                <p className="mx-4 px-4 py-3 bg-gray-300 text-gray-900 text-xs font-semibold rounded hover:bg-gray-400">
+                </Link>
+              </p>
+              <p className="mx-4 px-4 py-3 bg-gray-300 text-gray-900 text-xs font-semibold rounded hover:bg-gray-400">
+                <Link href="/signup">
                   Sign Up
-                </p>
-              </Link>
+                </Link>
+              </p>
             </div>
           </div>
         </div>
