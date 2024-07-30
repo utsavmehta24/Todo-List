@@ -1,12 +1,13 @@
 "use client";
-import React, { useState } from 'react'
+
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { signUp } from '../Services/userService';
 import { useRouter } from 'next/navigation';
 
 const Signup_Page_Client = () => {
     const router = useRouter();
-    const [sumbitData, setSumbitData] = useState({
+    const [submitData, setSubmitData] = useState({
         name: "",
         email: "",
         password: "",
@@ -14,8 +15,10 @@ const Signup_Page_Client = () => {
 
     const handleSubmitData = async (event) => {
         event.preventDefault();
-        // console.log(sumbitData);
-        if (sumbitData.name.trim() === "" || sumbitData.name == null) {
+        
+        const { name, email, password } = submitData;
+
+        if (!name.trim()) {
             toast.warning("Name is required", {
                 position: 'top-center',
                 autoClose: 5000,
@@ -25,9 +28,9 @@ const Signup_Page_Client = () => {
                 draggable: true,
                 progress: undefined,
             });
-            return
+            return;
         }
-        if (sumbitData.email.trim() === "" || sumbitData.email == null) {
+        if (!email.trim()) {
             toast.warning("Email is required", {
                 position: 'top-center',
                 autoClose: 5000,
@@ -37,9 +40,9 @@ const Signup_Page_Client = () => {
                 draggable: true,
                 progress: undefined,
             });
-            return
+            return;
         }
-        if (sumbitData.password.trim() === "" || sumbitData.password == null) {
+        if (!password.trim()) {
             toast.warning("Password is required", {
                 position: 'top-center',
                 autoClose: 5000,
@@ -49,11 +52,11 @@ const Signup_Page_Client = () => {
                 draggable: true,
                 progress: undefined,
             });
-            return
+            return;
         }
+        
         try {
-            const result = await signUp(sumbitData)
-            // console.log(result);
+            const result = await signUp(submitData);
             toast.success("Signup Successfully", {
                 position: 'top-center',
                 autoClose: 5000,
@@ -62,17 +65,16 @@ const Signup_Page_Client = () => {
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-            })
-            setSumbitData({
+            });
+            setSubmitData({
                 name: "",
                 email: "",
                 password: "",
-            })
+            });
             router.push("/login");
         } catch (error) {
-            console.log(error);
-            // console.log(error.response.data.message);
-            toast.error("Error Creating the user !! \n" + error.response.data.message, {
+            console.error(error);
+            toast.error(`Error Creating the user: ${error.response?.data?.message || 'Unknown error'}`, {
                 position: 'top-center',
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -82,240 +84,64 @@ const Signup_Page_Client = () => {
                 progress: undefined,
             });
         }
-    }
+    };
 
     return (
         <div className="bg-gray-800 relative lg:py-20">
-            <div className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-7xl xl:px-5 lg:flex-row">
-                <div className="flex flex-col items-center w-full pt-5 pr-10 pb-20 pl-10 lg:pt-20 lg:flex-row">
-                    <div className="w-full bg-cover relative max-w-md lg:max-w-2xl lg:w-7/12">
+            <div className="flex flex-col items-center justify-between px-10 max-w-7xl mx-auto lg:flex-row">
+                <div className="flex flex-col items-center w-full lg:flex-row">
+                    <div className="w-full lg:w-7/12 relative max-w-md lg:max-w-2xl">
                         <div className="flex flex-col items-center justify-center w-full h-full relative lg:pr-10">
                             <img src="https://th.bing.com/th/id/OIG4.fd5mWCok__tCVA9Kuzb6?w=1024&h=1024&rs=1&pid=ImgDetMain" className="btn- rounded-full" alt="Health" />
                         </div>
                     </div>
-                    <div className="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-2xl lg:mt-0 lg:w-5/12">
-                        <form action="#!" onSubmit={handleSubmitData}>
-                            <div className="flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-gray-700 shadow-2xl rounded-xl relative z-10">
-                                <p className="w-full text-4xl font-medium text-center leading-snug font-serif text-white">Sign up for an account</p>
-                                <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
-                                    {/* for name */}
+                    <div className="w-full mt-20 relative z-10 max-w-2xl lg:mt-0 lg:w-5/12">
+                        <form className='z-0' onSubmit={handleSubmitData}>
+                            <div className="flex flex-col items-start justify-start p-10 bg-gray-700 shadow-2xl rounded-xl">
+                                <p className="w-full text-4xl font-medium text-center text-white">Sign up for an account</p>
+                                <div className="w-full mt-6 space-y-8">
                                     <div className="relative">
-                                        <label htmlFor='user_name' className="bg-gray-700 pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-300 absolute">Username</label>
-                                        <input id='user_name' placeholder="Enter Your name here" type="text" className="border placeholder-gray-400 focus:outline-none focus:border-white w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-gray-700 text-white border-gray-300 rounded-md" name='name'
-                                            onChange={(event) => setSumbitData({
-                                                ...sumbitData,
+                                        <label htmlFor='user_name' className="bg-gray-700 px-2 -mt-3 font-medium text-gray-300 absolute">Username</label>
+                                        <input id='user_name' placeholder="Enter Your name here" type="text" className="border placeholder-gray-400 focus:outline-none focus:border-white w-full p-4 mt-2 text-base block bg-gray-700 text-white border-gray-300 rounded-md" name='name'
+                                            onChange={(event) => setSubmitData({
+                                                ...submitData,
                                                 name: event.target.value,
                                             })}
-                                            value={sumbitData.name} />
+                                            value={submitData.name} />
                                     </div>
-                                    {/* for email  */}
                                     <div className="relative">
-                                        <label htmlFor='user_email' className="bg-gray-700 pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-300 absolute">Email</label>
-                                        <input id='user_email' placeholder="123@ex.com" type="email" className="border placeholder-gray-400 focus:outline-none focus:border-white w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-gray-700 text-white border-gray-300 rounded-md"
+                                        <label htmlFor='user_email' className="bg-gray-700 px-2 -mt-3 font-medium text-gray-300 absolute">Email</label>
+                                        <input id='user_email' placeholder="123@ex.com" type="email" className="border placeholder-gray-400 focus:outline-none focus:border-white w-full p-4 mt-2 text-base block bg-gray-700 text-white border-gray-300 rounded-md"
                                             name='email'
-                                            onChange={(event) => setSumbitData({
-                                                ...sumbitData,
+                                            onChange={(event) => setSubmitData({
+                                                ...submitData,
                                                 email: event.target.value,
                                             })}
-                                            value={sumbitData.email} />
+                                            value={submitData.email} />
                                     </div>
-                                    {/* for password  */}
                                     <div className="relative">
-                                        <label htmlFor='user_password' className="bg-gray-700 pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-300 absolute">Password</label>
-                                        <input id='user_password' placeholder="Password" type="password" className="border placeholder-gray-400 focus:outline-none focus:border-white w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-gray-700 text-white border-gray-300 rounded-md"
+                                        <label htmlFor='user_password' className="bg-gray-700 px-2 -mt-3 font-medium text-gray-300 absolute">Password</label>
+                                        <input id='user_password' placeholder="Password" type="password" className="border placeholder-gray-400 focus:outline-none focus:border-white w-full p-4 mt-2 text-base block bg-gray-700 text-white border-gray-300 rounded-md"
                                             name='password'
-                                            onChange={(event) => setSumbitData({
-                                                ...sumbitData,
+                                            onChange={(event) => setSubmitData({
+                                                ...submitData,
                                                 password: event.target.value,
                                             })}
-                                            value={sumbitData.password} />
+                                            value={submitData.password} />
                                     </div>
                                     <div className="relative">
-                                        <button type='submit' className="w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500 rounded-lg transition duration-200 hover:bg-indigo-600 ease">
+                                        <button type='submit' className="w-full inline-block py-4 px-5 text-xl font-medium text-center text-white bg-indigo-500 rounded-lg transition duration-200 hover:bg-indigo-600">
                                             Submit
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </form>
-                        {/* {JSON.stringify(sumbitData)} */}
-                        <svg viewBox="0 0 91 91" className="absolute top-0 left-0 z-0 w-32 h-32 -mt-12 -ml-12 text-yellow-300 fill-current">
-                            <g stroke="none" strokeWidth="1" fillRule="evenodd">
-                                <g fillRule="nonzero">
-                                    <g>
-                                        <circle cx="3.261" cy="3.445" r="2.72" />
-                                        <circle cx="15.296" cy="3.445" r="2.719" />
-                                        <circle cx="27.333" cy="3.445" r="2.72" />
-                                        <circle cx="39.369" cy="3.445" r="2.72" />
-                                        <circle cx="51.405" cy="3.445" r="2.72" />
-                                        <circle cx="63.441" cy="3.445" r="2.72" />
-                                        <circle cx="75.479" cy="3.445" r="2.72" />
-                                        <circle cx="87.514" cy="3.445" r="2.719" />
-                                    </g>
-                                    <g transform="translate(0 12)">
-                                        <circle cx="3.261" cy="3.525" r="2.72" />
-                                        <circle cx="15.296" cy="3.525" r="2.719" />
-                                        <circle cx="27.333" cy="3.525" r="2.72" />
-                                        <circle cx="39.369" cy="3.525" r="2.72" />
-                                        <circle cx="51.405" cy="3.525" r="2.72" />
-                                        <circle cx="63.441" cy="3.525" r="2.72" />
-                                        <circle cx="75.479" cy="3.525" r="2.72" />
-                                        <circle cx="87.514" cy="3.525" r="2.719" />
-                                    </g>
-                                    <g transform="translate(0 24)">
-                                        <circle cx="3.261" cy="3.605" r="2.72" />
-                                        <circle cx="15.296" cy="3.605" r="2.719" />
-                                        <circle cx="27.333" cy="3.605" r="2.72" />
-                                        <circle cx="39.369" cy="3.605" r="2.72" />
-                                        <circle cx="51.405" cy="3.605" r="2.72" />
-                                        <circle cx="63.441" cy="3.605" r="2.72" />
-                                        <circle cx="75.479" cy="3.605" r="2.72" />
-                                        <circle cx="87.514" cy="3.605" r="2.719" />
-                                    </g>
-                                    <g transform="translate(0 36)">
-                                        <circle cx="3.261" cy="3.686" r="2.72" />
-                                        <circle cx="15.296" cy="3.686" r="2.719" />
-                                        <circle cx="27.333" cy="3.686" r="2.72" />
-                                        <circle cx="39.369" cy="3.686" r="2.72" />
-                                        <circle cx="51.405" cy="3.686" r="2.72" />
-                                        <circle cx="63.441" cy="3.686" r="2.72" />
-                                        <circle cx="75.479" cy="3.686" r="2.72" />
-                                        <circle cx="87.514" cy="3.686" r="2.719" />
-                                    </g>
-                                    <g transform="translate(0 49)">
-                                        <circle cx="3.261" cy="2.767" r="2.72" />
-                                        <circle cx="15.296" cy="2.767" r="2.719" />
-                                        <circle cx="27.333" cy="2.767" r="2.72" />
-                                        <circle cx="39.369" cy="2.767" r="2.72" />
-                                        <circle cx="51.405" cy="2.767" r="2.72" />
-                                        <circle cx="63.441" cy="2.767" r="2.72" />
-                                        <circle cx="75.479" cy="2.767" r="2.72" />
-                                        <circle cx="87.514" cy="2.767" r="2.719" />
-                                    </g>
-                                    <g transform="translate(0 61)">
-                                        <circle cx="3.261" cy="2.846" r="2.72" />
-                                        <circle cx="15.296" cy="2.846" r="2.719" />
-                                        <circle cx="27.333" cy="2.846" r="2.72" />
-                                        <circle cx="39.369" cy="2.846" r="2.72" />
-                                        <circle cx="51.405" cy="2.846" r="2.72" />
-                                        <circle cx="63.441" cy="2.846" r="2.72" />
-                                        <circle cx="75.479" cy="2.846" r="2.72" />
-                                        <circle cx="87.514" cy="2.846" r="2.719" />
-                                    </g>
-                                    <g transform="translate(0 73)">
-                                        <circle cx="3.261" cy="2.926" r="2.72" />
-                                        <circle cx="15.296" cy="2.926" r="2.719" />
-                                        <circle cx="27.333" cy="2.926" r="2.72" />
-                                        <circle cx="39.369" cy="2.926" r="2.72" />
-                                        <circle cx="51.405" cy="2.926" r="2.72" />
-                                        <circle cx="63.441" cy="2.926" r="2.72" />
-                                        <circle cx="75.479" cy="2.926" r="2.72" />
-                                        <circle cx="87.514" cy="2.926" r="2.719" />
-                                    </g>
-                                    <g transform="translate(0 85)">
-                                        <circle cx="3.261" cy="3.006" r="2.72" />
-                                        <circle cx="15.296" cy="3.006" r="2.719" />
-                                        <circle cx="27.333" cy="3.006" r="2.72" />
-                                        <circle cx="39.369" cy="3.006" r="2.72" />
-                                        <circle cx="51.405" cy="3.006" r="2.72" />
-                                        <circle cx="63.441" cy="3.006" r="2.72" />
-                                        <circle cx="75.479" cy="3.006" r="2.72" />
-                                        <circle cx="87.514" cy="3.006" r="2.719" />
-                                    </g>
-                                </g>
-                            </g>
-                        </svg>
-                        <svg viewBox="0 0 91 91" className="absolute bottom-0 right-0 z-0 w-32 h-32 -mb-12 -mr-12 text-purple-300 fill-current">
-                            <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-                                <g fillRule="nonzero">
-                                    <g>
-                                        <circle cx="3.261" cy="3.445" r="2.72" />
-                                        <circle cx="15.296" cy="3.445" r="2.719" />
-                                        <circle cx="27.333" cy="3.445" r="2.72" />
-                                        <circle cx="39.369" cy="3.445" r="2.72" />
-                                        <circle cx="51.405" cy="3.445" r="2.72" />
-                                        <circle cx="63.441" cy="3.445" r="2.72" />
-                                        <circle cx="75.479" cy="3.445" r="2.72" />
-                                        <circle cx="87.514" cy="3.445" r="2.719" />
-                                    </g>
-                                    <g transform="translate(0 12)">
-                                        <circle cx="3.261" cy="3.525" r="2.72" />
-                                        <circle cx="15.296" cy="3.525" r="2.719" />
-                                        <circle cx="27.333" cy="3.525" r="2.72" />
-                                        <circle cx="39.369" cy="3.525" r="2.72" />
-                                        <circle cx="51.405" cy="3.525" r="2.72" />
-                                        <circle cx="63.441" cy="3.525" r="2.72" />
-                                        <circle cx="75.479" cy="3.525" r="2.72" />
-                                        <circle cx="87.514" cy="3.525" r="2.719" />
-                                    </g>
-                                    <g transform="translate(0 24)">
-                                        <circle cx="3.261" cy="3.605" r="2.72" />
-                                        <circle cx="15.296" cy="3.605" r="2.719" />
-                                        <circle cx="27.333" cy="3.605" r="2.72" />
-                                        <circle cx="39.369" cy="3.605" r="2.72" />
-                                        <circle cx="51.405" cy="3.605" r="2.72" />
-                                        <circle cx="63.441" cy="3.605" r="2.72" />
-                                        <circle cx="75.479" cy="3.605" r="2.72" />
-                                        <circle cx="87.514" cy="3.605" r="2.719" />
-                                    </g>
-                                    <g transform="translate(0 36)">
-                                        <circle cx="3.261" cy="3.686" r="2.72" />
-                                        <circle cx="15.296" cy="3.686" r="2.719" />
-                                        <circle cx="27.333" cy="3.686" r="2.72" />
-                                        <circle cx="39.369" cy="3.686" r="2.72" />
-                                        <circle cx="51.405" cy="3.686" r="2.72" />
-                                        <circle cx="63.441" cy="3.686" r="2.72" />
-                                        <circle cx="75.479" cy="3.686" r="2.72" />
-                                        <circle cx="87.514" cy="3.686" r="2.719" />
-                                    </g>
-                                    <g transform="translate(0 49)">
-                                        <circle cx="3.261" cy="2.767" r="2.72" />
-                                        <circle cx="15.296" cy="2.767" r="2.719" />
-                                        <circle cx="27.333" cy="2.767" r="2.72" />
-                                        <circle cx="39.369" cy="2.767" r="2.72" />
-                                        <circle cx="51.405" cy="2.767" r="2.72" />
-                                        <circle cx="63.441" cy="2.767" r="2.72" />
-                                        <circle cx="75.479" cy="2.767" r="2.72" />
-                                        <circle cx="87.514" cy="2.767" r="2.719" />
-                                    </g>
-                                    <g transform="translate(0 61)">
-                                        <circle cx="3.261" cy="2.846" r="2.72" />
-                                        <circle cx="15.296" cy="2.846" r="2.719" />
-                                        <circle cx="27.333" cy="2.846" r="2.72" />
-                                        <circle cx="39.369" cy="2.846" r="2.72" />
-                                        <circle cx="51.405" cy="2.846" r="2.72" />
-                                        <circle cx="63.441" cy="2.846" r="2.72" />
-                                        <circle cx="75.479" cy="2.846" r="2.72" />
-                                        <circle cx="87.514" cy="2.846" r="2.719" />
-                                    </g>
-                                    <g transform="translate(0 73)">
-                                        <circle cx="3.261" cy="2.926" r="2.72" />
-                                        <circle cx="15.296" cy="2.926" r="2.719" />
-                                        <circle cx="27.333" cy="2.926" r="2.72" />
-                                        <circle cx="39.369" cy="2.926" r="2.72" />
-                                        <circle cx="51.405" cy="2.926" r="2.72" />
-                                        <circle cx="63.441" cy="2.926" r="2.72" />
-                                        <circle cx="75.479" cy="2.926" r="2.72" />
-                                        <circle cx="87.514" cy="2.926" r="2.719" />
-                                    </g>
-                                    <g transform="translate(0 85)">
-                                        <circle cx="3.261" cy="3.006" r="2.72" />
-                                        <circle cx="15.296" cy="3.006" r="2.719" />
-                                        <circle cx="27.333" cy="3.006" r="2.72" />
-                                        <circle cx="39.369" cy="3.006" r="2.72" />
-                                        <circle cx="51.405" cy="3.006" r="2.72" />
-                                        <circle cx="63.441" cy="3.006" r="2.72" />
-                                        <circle cx="75.479" cy="3.006" r="2.72" />
-                                        <circle cx="87.514" cy="3.006" r="2.719" />
-                                    </g>
-                                </g>
-                            </g>
-                        </svg>
                     </div>
                 </div>
             </div>
-        </div >
-    )
+        </div>
+  );
 }
 
-export default Signup_Page_Client 
+export default Signup_Page_Client;

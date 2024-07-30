@@ -2,12 +2,12 @@ import { connectDb } from "@/helper/db";
 import { task } from "@/model/task";
 import { NextResponse } from "next/server";
 
-connectDb();
 // to get a single task
 export async function GET(request, { params }) {
 
     const { workid } = params;
     try {
+        await connectDb();
         const foundTask = await task.findOne({ _id: workid });
         if (!foundTask) {
             return NextResponse.json({
@@ -36,6 +36,7 @@ export async function DELETE(request, { params }) {
     const { workid } = params;
 
     try {
+        await connectDb();
         const deletedTask = await task.findByIdAndDelete(workid);
         if (deletedTask) {
             return NextResponse.json({
@@ -64,6 +65,7 @@ export async function PUT(request, { params }) {
     const { title, description, status } = await request.json();
 
     try {
+        await connectDb();
         const Task = await task.findById(workid);
         if (Task) {
             Task.title = title;

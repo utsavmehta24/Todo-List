@@ -9,6 +9,7 @@ import './showtask.css';
 
 const ShowTaskPage = () => {
   const [tasks, setTasks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
   const context = useContext(UserContext);
 
   async function loadTask(userId) {
@@ -18,6 +19,8 @@ const ShowTaskPage = () => {
       setTasks([...tasks].reverse());
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false); // Set loading to false after fetching tasks
     }
   }
 
@@ -82,7 +85,11 @@ const ShowTaskPage = () => {
         <div className="text-2xl font-extrabold text-blue-400 tracking-widest text-center mb-8">
           Show Tasks <span className="text-white">{`(${tasks.length})`}</span>
         </div>
-        {tasks.length > 0 ? (
+        {isLoading ? ( // Check if still loading
+          <div className="text-2xl font-extrabold text-blue-400 tracking-widest text-center mb-8">
+            Loading...
+          </div>
+        ) : tasks.length > 0 ? (
           tasks.map((task) => (
             <Task
               task={task}

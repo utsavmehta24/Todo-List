@@ -2,11 +2,11 @@ import { connectDb } from "@/helper/db";
 import { user } from "@/model/user";
 import { NextResponse } from "next/server";
 
-connectDb();
 export async function GET(request, { params }) {
     const { userid } = params;
 
     try {
+        await connectDb();
         const foundUser = await user.findOne({ _id: userid });
 
         if (!foundUser) {
@@ -34,6 +34,7 @@ export async function GET(request, { params }) {
 export async function DELETE(request, { params }) {
     try {
         const { userid } = params;
+        await connectDb();
         const deletedUser = await user.findByIdAndDelete(userid);
         if (deletedUser) {
             return NextResponse.json({
@@ -60,6 +61,7 @@ export async function PUT(request, { params }) {
     const { userid } = params;
     const { name, email, password } = await request.json();
     try {
+        await connectDb();
         const User = await user.findById(userid);
         if (User) {
             User.name = name;
@@ -83,24 +85,3 @@ export async function PUT(request, { params }) {
 
     }
 }
-
-
-
-
-
-// export async function POST(request) {
-//     // const { name, email, password, about, profileURL} = request.json()
-//     // const body = request.body
-//     // console.log(body);
-//     // console.log("Hi How are you ??");
-//     // console.log(request.cookies);
-//     // console.log(request.headers);
-//     // console.log(request.nextUrl.searchParams);
-
-//     // const jsonData = await request.json();
-//     // console.log(jsonData);
-//     // return NextResponse.json({
-//     //     message: 'posted user data'
-
-//     // });
-// }

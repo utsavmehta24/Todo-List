@@ -3,10 +3,10 @@ import { task } from "@/model/task";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-connectDb();
 // to get all the tasks
 export async function GET() {
     try {
+        await connectDb();
         const tasks = await task.find();
         return NextResponse.json(tasks, {
             message: "Tasks fetched successfully",
@@ -24,6 +24,7 @@ export async function GET() {
 
 // to create a new task
 export async function POST(request) {
+    await connectDb();
     const { title, description, status, userId } = await request.json();
 
     //fetching logged in user

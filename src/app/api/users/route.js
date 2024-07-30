@@ -4,13 +4,10 @@ import { NextResponse } from "next/server";
 import * as bcrypt from 'bcrypt';
 require('dotenv').config();
 
-
-
-connectDb();
-
 // Get all the users
 export async function GET(request) {
     try {
+        await connectDb();
         const users = await user.find().select("-password");
         return NextResponse.json(users, {
             message: "Users fetched successfully",
@@ -27,6 +24,7 @@ export async function GET(request) {
 
 // Create a new user
 export async function POST(request) {
+    await connectDb();
     const { name, email, password } = await request.json();
     const NewUser = new user({
         name,

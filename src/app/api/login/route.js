@@ -4,10 +4,12 @@ import { NextResponse } from "next/server";
 import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { connectDb } from "@/helper/db";
 
 export async function POST(request) {
   const { email, password } = await request.json();
   try {
+    await connectDb();
     const User = await user.findOne({ email: email });
 
     if (!User) {
@@ -35,6 +37,7 @@ export async function POST(request) {
     const response = NextResponse.json({
       message: "User logged in successfully",
       status: true,
+      user: User.name,
     });
 
     const cookieStore = cookies();

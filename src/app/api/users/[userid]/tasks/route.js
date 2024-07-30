@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 import { connectDb } from "@/helper/db";
 import { task } from "@/model/task";
 
-connectDb();
 //get all the task of a particular user 
 export async function GET(request, { params }) {
     const { userid } = params;
     try {
+        await connectDb();
         const tasks = await task.find({ userId: userid });
         return NextResponse.json(tasks, {
             message: "Tasks fetched successfully",
