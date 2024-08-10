@@ -21,12 +21,12 @@ export default function IntroBanner() {
             </p>  
             <div className="flex justify-center lg:justify-start mt-6">
               <Link href="/login">
-                <p className="px-4 py-3 bg-gray-700 text-gray-200 text-xs font-semibold rounded hover:bg-gray-600 cursor-pointer">
+                <p className="px-4 py-3 bg-gray-700 text-gray-200 text-s font-semibold rounded hover:bg-gray-600 cursor-pointer">
                   Login
                 </p>
               </Link>
               <Link href="/signup">
-                <p className="mx-4 px-4 py-3 bg-gray-300 text-gray-900 text-xs font-semibold rounded hover:bg-gray-400 cursor-pointer">
+                <p className="mx-4 px-4 py-3 bg-gray-300 text-gray-900 text-s font-semibold rounded hover:bg-gray-400 cursor-pointer">
                   Sign Up
                 </p>
               </Link>

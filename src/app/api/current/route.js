@@ -14,6 +14,7 @@ export async function GET(request) {
         const User = await user.findById(data._id).select("-password");
         return NextResponse.json(User);
     } catch (error) {
-        return NextResponse.json({ error: "Not authorized" });
+        const User = {name : "", email: ""};
+        return NextResponse.json(User);
     }
 }
