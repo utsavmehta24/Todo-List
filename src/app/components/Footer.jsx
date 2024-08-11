@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { FaFacebook, FaTwitter, FaGithub, FaInstagram } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
 const Footer = () => {
   return (
@@ -13,17 +13,20 @@ const Footer = () => {
               Find us on any of these platforms, we respond in 1-2 business days.
             </h5>
             <div className="mt-6 lg:mb-0 mb-6 flex items-center justify-start">
-              <a href="/" className="hover:text-blue-500 px-3">
+              <a href="https://www.facebook.com/utsav.mehta.566148?mibextid=ZbWKwL" className="hover:text-blue-500 px-3">
                 <FaFacebook size={40} />
               </a>
-              <a href="/" className="hover:text-blue-500 px-3">
+              {/* <a href="/" className="hover:text-blue-500 px-3">
                 <FaTwitter size={40} />
-              </a>
-              <a href="/" className="hover:text-blue-500 px-3">
+              </a> */}
+              <a href="https://www.instagram.com/lucid24by7.io?igsh=MWJmZXp6dThuYTRjbw==" className="hover:text-blue-500 px-3">
                 <FaInstagram size={40} />
               </a>
-              <a href="/" className="hover:text-blue-500 px-3">
+              <a href="https://github.com/utsavmehta24" className="hover:text-blue-500 px-3">
                 <FaGithub size={40} />
+              </a>
+              <a href="https://www.linkedin.com/in/utsav-mehta-462653258/" className="hover:text-blue-500 px-3">
+                <FaLinkedin size={40} />
               </a>
             </div>
           </div>
@@ -35,22 +38,22 @@ const Footer = () => {
                 </span>
                 <ul className="list-unstyled">
                   <li>
-                    <Link href="/" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
+                    <Link href="https://github.com/utsavmehta24" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
                       About Us
                     </Link>
                   </li>
                   <li>
-                    <Link href="/" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
+                    <Link href="https://www.instagram.com/lucid24by7.io?igsh=MWJmZXp6dThuYTRjbw==" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
                       Blog
                     </Link>
                   </li>
                   <li>
-                    <Link href="/" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
+                    <Link href="https://github.com/utsavmehta24" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
                       Github
                     </Link>
                   </li>
                   <li>
-                    <Link href="/" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
+                    <Link href="https://github.com/utsavmehta24?tab=repositories" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
                       Free Products
                     </Link>
                   </li>
@@ -62,22 +65,22 @@ const Footer = () => {
                 </span>
                 <ul className="list-unstyled">
                   <li>
-                    <Link href="/" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
+                    <Link href="https://www.mit.edu/~amini/LICENSE.md" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
                       MIT License
                     </Link>
                   </li>
                   <li>
-                    <Link href="/" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
+                    <Link href="https://www.termsfeed.com/public/uploads/2021/12/sample-terms-of-service-template.pdf" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
                       Terms & Conditions
                     </Link>
                   </li>
                   <li>
-                    <Link href="/" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
+                    <Link href="https://www.termsfeed.com/public/uploads/2021/12/sample-terms-of-service-template.pdf" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
                       Privacy Policy
                     </Link>
                   </li>
                   <li>
-                    <Link href="/" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
+                    <Link href="tel:+919913816941" className="text-gray-300 hover:text-white font-semibold block pb-2 text-sm">
                       Contact Us
                     </Link>
                   </li>
@@ -91,10 +94,10 @@ const Footer = () => {
           <div className="w-full md:w-4/12 px-4 mx-auto text-center">
             <div className="text-sm text-gray-400 font-semibold py-1">
               Copyright © <span id="get-current-year">2024</span>
-              <Link href="/" className="text-blue-400 hover:text-white" target="_blank">
+              <Link href="https://www.linkedin.com/in/utsav-mehta-462653258/" className="text-blue-400 hover:text-white" target="_blank">
                 {' '}rockingUT /
               </Link>
-              <Link href="/" className="text-blue-400 hover:text-white">
+              <Link href="https://www.linkedin.com/in/utsav-mehta-462653258/" className="text-blue-400 hover:text-white">
                 {' '}Utsav Mehta
               </Link>
               .
