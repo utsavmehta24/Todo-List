@@ -15,7 +15,7 @@ const LoginPage = () => {
     // console.log(context);
 
     const handleSubmitData = async (event) => {
-        event.preventDefault();
+        event.preventDefault(); 
         if (submitData.email.trim() === "" || submitData.email == null) {
             toast.warning("Email is required", {
                 position: "top-center",

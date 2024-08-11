@@ -7,14 +7,15 @@ import { curentUser } from '@/app/Services/userService';
 const UserProvider = ({ children }) => {
     const [user, setUser] = useState({
         name: "",
-        email: ""
+        email: "",
     });
     useEffect(() => {
         const fetchCurrentUser = async () => {
             try {
                 const currentUser = await curentUser();
-                console.log("Current User in the userProvider",currentUser);
+                console.log("Current User in the userProvider", currentUser);
                 setUser(currentUser);
+                console.log("This is the user in the curent User in the current user provider", user);
             } catch (error) {
                 console.log(error);
                 toast.error("Error Loading the current user");
@@ -34,3 +35,4 @@ const UserProvider = ({ children }) => {
 };
 
 export default UserProvider
+

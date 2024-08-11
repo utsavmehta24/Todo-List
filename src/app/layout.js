@@ -24,8 +24,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <UserProvider>
-          < ToastContainer />
           <Navbar />
+          < ToastContainer />
           {children}
           <Footer />
         </UserProvider>
