@@ -18,7 +18,8 @@ const Navbar = () => {
   const doLogout = async () => {
     try {
       await logOut();
-      setUser(null);
+      const user = { name: "", email: ""};
+      setUser(user);
       router.push("/");
     } catch (error) {
       console.error(error);
@@ -37,7 +38,6 @@ const Navbar = () => {
           </Link>
         </h1>
 
-        {/* Conditionally render these sections based on user login status */}
         {user?.email !== "" ? (
           <>
             <div className="hidden md:flex space-x-4">
