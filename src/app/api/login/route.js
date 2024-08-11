@@ -37,7 +37,7 @@ export async function POST(request) {
     const response = NextResponse.json({
       message: "User logged in successfully",
       status: true,
-      user: User.name,
+      user: User,
     });
 
     const cookieStore = cookies();
