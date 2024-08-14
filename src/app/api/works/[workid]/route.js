@@ -59,8 +59,37 @@ export async function DELETE(request, { params }) {
 }
 
 //to update a single task
-export async function PUT(request, { params }) {
+// export async function PUT(request, { params }) {
 
+//     const { workid } = params;
+//     const { title, description, status } = await request.json();
+
+//     try {
+//         await connectDb();
+//         const Task = await task.findById(workid);
+//         if (Task) {
+//             Task.title = title;
+//             Task.description = description;
+//             Task.status = status;
+//             const UpdatedTask = await Task.save();
+//             return NextResponse.json(UpdatedTask);
+//         } else {
+//             return NextResponse.json({
+//                 message: "No document by this Id",
+//                 success: false
+//             });
+//         }
+
+//     } catch (error) {
+//         console.log(error);
+//         return NextResponse.json({
+//             message: "Error while upadting !!",
+//             success: false
+//         });
+//     }
+// }
+
+export async function PUT(request, { params }) {
     const { workid } = params;
     const { title, description, status } = await request.json();
 
@@ -83,7 +112,7 @@ export async function PUT(request, { params }) {
     } catch (error) {
         console.log(error);
         return NextResponse.json({
-            message: "Error while upadting !!",
+            message: "Error while updating !!",
             success: false
         });
     }

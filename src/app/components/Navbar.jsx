@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useContext, useEffect } from "react";
 import Link from "next/link";
 import UserContext from "@/context/userContext";
@@ -12,7 +11,7 @@ const Navbar = () => {
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
-    console.log("Context in the Navbar.jsx file", user);
+    // console.log("Context in the Navbar.jsx file", user);
   }, [user]);
 
   const doLogout = async () => {

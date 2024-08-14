@@ -9,7 +9,7 @@ import './showtask.css';
 
 const ShowTaskPage = () => {
   const [tasks, setTasks] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [isLoading, setIsLoading] = useState(true);
   const context = useContext(UserContext);
 
   async function loadTask(userId) {
@@ -20,7 +20,7 @@ const ShowTaskPage = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      setIsLoading(false); // Set loading to false after fetching tasks
+      setIsLoading(false);
     }
   }
 
@@ -54,22 +54,18 @@ const ShowTaskPage = () => {
           try {
             const result = await deleteTasks(id);
             console.log(result);
-            // toast.success("Task deleted successfully");
             const newTask = tasks.filter((task) => task._id !== id);
             setTasks([...newTask]);
             swalWithBootstrapButtons.fire({
               title: "Deleted!",
-              text: "Your file has been deleted.",
+              text: "Your task has been deleted.",
               icon: "success",
             });
           } catch (error) {
             console.log(error);
             toast.error("Error while deleting task");
           }
-        } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire({
             title: "Cancelled",
             text: "Task is safe :)",
@@ -85,7 +81,7 @@ const ShowTaskPage = () => {
         <div className="text-2xl font-extrabold text-blue-400 tracking-widest text-center mb-8">
           Show Tasks <span className="text-white">{`(${tasks.length})`}</span>
         </div>
-        {isLoading ? ( // Check if still loading
+        {isLoading ? (
           <div className="text-2xl font-extrabold text-blue-400 tracking-widest text-center mb-8">
             Loading...
           </div>
