@@ -11,7 +11,7 @@ export default function Utsav() {
     useEffect(() => {
         const fetchQuotes = async () => {
             try {
-                const res = await fetch("https://type.fit/api/quotes");
+                const res = await fetch("/quotes.json"); // Fetch from the local JSON file
                 if (!res.ok) {
                     throw new Error("Failed to fetch quotes");
                 }
@@ -61,12 +61,11 @@ export default function Utsav() {
         };
 
         animateQuote();
-
     }, [quote]);
 
     // Clean up author string
     const cleanAuthor = (author) => {
-        return author.split(',')[0].trim();
+        return author?.split(',')[0]?.trim() || "Unknown";
     };
 
     return (
