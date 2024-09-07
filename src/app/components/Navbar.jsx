@@ -17,7 +17,7 @@ const Navbar = () => {
   const doLogout = async () => {
     try {
       await logOut();
-      const user = { name: "", email: ""};
+      const user = { name: "", email: "" };
       setUser(user);
       router.push("/");
     } catch (error) {
@@ -36,10 +36,24 @@ const Navbar = () => {
             </span>
           </Link>
         </h1>
-
-        {user?.email !== "" ? (
-          <>
-            <div className="hidden md:flex space-x-4">
+        {
+          user?.email === "" ? (
+            <>
+              <div className="hidden md:flex space-x-4">
+                <button className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
+                  <Link href="/login">
+                    Login
+                  </Link>
+                </button>
+                <button className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
+                  <Link href="/signup">
+                    Signup
+                  </Link>
+                </button>
+              </div>
+            </>
+          ) : (
+            <><div className="hidden md:flex space-x-4">
               <span className="relative group text-2xl text-white hover:text-gray-300 cursor-pointer">
                 <Link href="/">Home</Link>
                 <span className="absolute m-0 left-0 top-8 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
@@ -56,18 +70,17 @@ const Navbar = () => {
               </span>
             </div>
 
-            <div className="hidden md:flex space-x-4">
-              <span className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
-                <Link href="/Dashboard">{user?.name}</Link>
-              </span>
+              <div className="hidden md:flex space-x-4">
+                <span className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
+                  <Link href="/Dashboard">{user?.name}</Link>
+                </span>
 
-              <span className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
-                <button onClick={doLogout}>Logout</button>
-              </span>
-            </div>
-          </>
-        ) : ( null
-        )}
+                <span className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
+                  <button onClick={doLogout}>Logout</button>
+                </span>
+              </div>
+            </>)
+        }
       </div>
     </nav>
   );
