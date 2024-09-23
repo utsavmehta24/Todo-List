@@ -90,7 +90,7 @@ export default function Utsav() {
 
                     {/* Motivational Line */}
                     <div className="p-4 bg-gray-700 rounded-md shadow-md animate-slide-in">
-                        <h3 className="text-xl font-semibold mb-2">Motivational Thought</h3>
+                        <h3 className="text-xl font-semibold mb-2">Thoughts</h3>
                         <div className="mb-4">
                             <p className="whitespace-pre-wrap">{displayedText}</p>
                             <p className="text-blue-400">{cleanAuthor(quote.author)}</p>

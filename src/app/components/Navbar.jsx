@@ -1,14 +1,16 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import UserContext from "@/context/userContext";
 import { logOut } from "../Services/userService";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { FaBars, FaTimes } from "react-icons/fa"; // For hamburger and close icons
 
 const Navbar = () => {
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for mobile menu
 
   useEffect(() => {
     // console.log("Context in the Navbar.jsx file", user);
@@ -26,6 +28,10 @@ const Navbar = () => {
     }
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <nav className="bg-gray-800 p-4">
       <div className="container mx-auto flex justify-between items-center">
@@ -36,54 +42,83 @@ const Navbar = () => {
             </span>
           </Link>
         </h1>
-        {
-          user?.email === "" ? (
+        
+        {/* Hamburger Icon for Mobile */}
+        <div className="md:hidden">
+          <button onClick={toggleMenu} className="text-white text-3xl">
+            {isMenuOpen ? <FaTimes /> : <FaBars />}
+          </button>
+        </div>
+
+        {/* Links for larger screens */}
+        <div className="hidden md:flex space-x-4">
+          {user?.email === "" ? (
             <>
-              <div className="hidden md:flex space-x-4">
-                <button className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
-                  <Link href="/login">
-                    Login
-                  </Link>
-                </button>
-                <button className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
-                  <Link href="/signup">
-                    Signup
-                  </Link>
-                </button>
-              </div>
+              <button className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
+                <Link href="/login">Login</Link>
+              </button>
+              <button className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
+                <Link href="/signup">Signup</Link>
+              </button>
             </>
           ) : (
-            <><div className="hidden md:flex space-x-4">
+            <>
               <span className="relative group text-2xl text-white hover:text-gray-300 cursor-pointer">
                 <Link href="/">Home</Link>
-                <span className="absolute m-0 left-0 top-8 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
               </span>
-
               <span className="relative group text-2xl text-white hover:text-gray-300 cursor-pointer">
                 <Link href="/addtask">Add Task</Link>
-                <span className="absolute m-0 left-0 top-8 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
               </span>
-
               <span className="relative group text-2xl text-white hover:text-gray-300 cursor-pointer">
                 <Link href="/showtask">Show Task</Link>
-                <span className="absolute m-0 left-0 bottom-0 top-8 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
               </span>
-            </div>
-
-              <div className="hidden md:flex space-x-4">
-                <span className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
-                  <Link href="/Dashboard">{user?.name}</Link>
-                </span>
-
-                <span className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
-                  <button onClick={doLogout}>Logout</button>
-                </span>
-              </div>
-            </>)
-        }
+              <span className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
+                <Link href="/Dashboard">{user?.name}</Link>
+              </span>
+              <span className="relative group text-2xl text-white border-2 p-2 border-white rounded hover:border-black hover:bg-white hover:text-gray-800 cursor-pointer">
+                <button onClick={doLogout}>Logout</button>
+              </span>
+            </>
+          )}
+        </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden flex flex-col space-y-4 mt-4">
+          {user?.email === "" ? (
+            <>
+              <Link href="/login" className="text-white text-xl">
+                Login
+              </Link>
+              <Link href="/signup" className="text-white text-xl">
+                Signup
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/" className="text-white text-xl">
+                Home
+              </Link>
+              <Link href="/addtask" className="text-white text-xl">
+                Add Task
+              </Link>
+              <Link href="/showtask" className="text-white text-xl">
+                Show Task
+              </Link>
+              <Link href="/Dashboard" className="text-white text-xl">
+                {user?.name}
+              </Link>
+              <button onClick={doLogout} className="text-white text-xl">
+                Logout
+              </button>
+            </>
+          )}
+        </div>
+      )}
     </nav>
   );
 };
 
 export default Navbar;
+  

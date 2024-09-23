@@ -20,3 +20,26 @@
         })
         return result
     }
+
+    export async function addReview(review) {
+        const result = await httpAxios.post("/api/reviews", review).then((res) => {
+            return res.data
+        })
+        return result
+    }
+
+    export async function   getReviewsOfUser() {
+        const result = await httpAxios.get("/api/reviews").then((res) => {
+            return res.data
+        })
+        return result
+    }
+
+    export async function getUserName(userId) {
+        const result = await httpAxios.get(`/api/users/${userId}`).then((res) => {
+            return res.data
+        })
+        return result
+    }
+
+    

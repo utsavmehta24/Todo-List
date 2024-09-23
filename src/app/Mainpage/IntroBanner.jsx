@@ -1,6 +1,13 @@
+"use client";
 import Link from 'next/link';
+import UserContext from '@/context/userContext';
+import { useContext } from 'react';
 
 export default function IntroBanner() {
+  const { user } = useContext(UserContext);
+  const bodyText = encodeURIComponent(`Hi! Myself ${user?.name}. I am facing an issue with using the application. Please help me.`);
+  const mailtolink = `mailto:utsavmehta24072003@gmail.com?subject=Issue with application&body=${bodyText}`;
+
   return (
     <div className="relative w-full">
       <nav className="bg-gray-900 shadow-lg z-10">
@@ -18,18 +25,35 @@ export default function IntroBanner() {
             </h2>
             <p className="mt-2 text-sm text-gray-400 md:text-base">
               Let your day be organized and focus on your work. Be productive. This is your new way of life. Where you can get your work done. Schedule your tasks and set your priorities. Once a time we live but always live life to the fullest....
-            </p>  
+            </p>
             <div className="flex justify-center lg:justify-start mt-6">
-              <Link href="/login">
-                <p className="px-4 py-3 bg-gray-700 text-gray-200 text-s font-semibold rounded hover:bg-gray-600 cursor-pointer">
-                  Login
-                </p>
-              </Link>
-              <Link href="/signup">
-                <p className="mx-4 px-4 py-3 bg-gray-300 text-gray-900 text-s font-semibold rounded hover:bg-gray-400 cursor-pointer">
-                  Sign Up
-                </p>
-              </Link>
+              {!user?.email ? (
+                <>
+                  <Link href="/reviews">
+                    <p className="px-4 py-3 bg-gray-700 text-gray-200 text-s font-semibold rounded hover:bg-gray-600 cursor-pointer">
+                      Reviews
+                    </p>
+                  </Link>
+                  <Link href="/signup">
+                    <p className="mx-4 px-4 py-3 bg-gray-300 text-gray-900 text-s font-semibold rounded hover:bg-gray-400 cursor-pointer">
+                      Sign Up
+                    </p>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/write-review">
+                    <p className="px-4 py-3 bg-gray-700 text-gray-200 text-s font-semibold rounded hover:bg-gray-600 cursor-pointer">
+                      Write Review
+                    </p>
+                  </Link>
+                  <Link href={mailtolink}>
+                    <p className="mx-4 px-4 py-3 bg-gray-300 text-gray-900 text-s font-semibold rounded hover:bg-gray-400 cursor-pointer">
+                      Facing Issues? <sub>Mail Us!</sub>
+                    </p>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -42,6 +66,5 @@ export default function IntroBanner() {
         </div>
       </div>
     </div>
-
   );
 }
