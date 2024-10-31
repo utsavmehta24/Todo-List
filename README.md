@@ -1,36 +1,265 @@
-# Todos
+Todo-List Application
 
-Welcome to the **Todos** application! This app helps you manage your tasks effectively, whether they are personal or work-related. Below you'll find details about the current status and features of the application.
+Table of Contents
 
-## Casual Todos
+1. Overview
 
-**Casual Todos** is designed to simplify everyday task management. It allows users to create, organize, and keep track of daily activities with ease.
 
-## Application Status
+2. Features
 
-The application is currently in the **testing phase**. During this phase, we aim to identify and fix any bugs, improve user experience, and ensure the app is stable and ready for public release.
 
-## Features
+3. Technology Stack
 
-- **Create Todos:** Easily add new tasks with a simple interface.
-- **Organize Todos:** Categorize tasks into different lists for better organization.
-- **Prioritize Tasks:** Mark tasks as important to focus on what matters most.
-- **Track Progress:** Check off completed tasks to see your progress.
 
-## Future Plans
+4. Setup & Installation
 
-- **Reminders:** Add the ability to set reminders for tasks.
-- **Collaboration:** Share task lists with others and work collaboratively.
-- **Notifications:** Receive notifications for upcoming tasks and deadlines.
 
-## Contributing
+5. Usage Guide
 
-We welcome contributions from the community. If you're interested in contributing, please check out our [contributing guidelines](CONTRIBUTING.md) for more information.
 
-## Feedback
+6. Project Structure
 
-Your feedback is valuable to us. If you encounter any issues or have suggestions for improvement, please open an issue on our [GitHub repository](https://github.com/your-repo/todos).
 
-## License
+7. API Documentation
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for more details.
+
+8. User Interface & Experience
+
+
+9. Contributing
+
+
+10. Future Enhancements
+
+
+11. License
+
+
+
+
+---
+
+1. Overview
+
+The Todo-List application is an intuitive task management platform aimed at helping users organize, prioritize, and track tasks with ease. It incorporates account management, CRUD capabilities (Create, Read, Update, Delete), user feedback, and real-time task updates, making it ideal for managing personal and professional tasks.
+
+2. Features
+
+2.1 User Authentication
+
+Signup/Login: Users can register and log into their accounts.
+
+Password Encryption: Ensures user data is stored securely with encrypted passwords.
+
+Session Management: Provides secure and persistent sessions, even after browser refreshes.
+
+
+2.2 Task Management
+
+Create Todos: Add new tasks with due dates, descriptions, and priority levels.
+
+Edit and Delete: Modify task details as needed or remove completed/unnecessary tasks.
+
+Task Prioritization: Label tasks as high, medium, or low priority.
+
+Progress Tracking: Mark tasks as complete or incomplete to track progress.
+
+
+2.3 User Reviews
+
+Feedback Collection: Users can rate and review the application.
+
+Improvement Suggestions: Feedback helps prioritize future enhancements.
+
+
+2.4 Real-Time Updates
+
+Live Sync: Task updates sync instantly across devices for seamless multi-device use.
+
+
+2.5 Responsive Design
+
+Mobile-Friendly Interface: Optimized for use on desktops, tablets, and mobile devices.
+
+
+
+---
+
+3. Technology Stack
+
+Frontend: Next.js, Tailwind CSS for styling
+
+Backend: Node.js with Express for API handling
+
+Database: MongoDB for secure and scalable data storage
+
+Deployment: Hosted on Vercel with continuous integration and deployment enabled
+
+
+
+---
+
+4. Setup & Installation
+
+4.1 Clone the Repository
+
+git clone https://github.com/utsavmehta24/Todo-List.git
+cd Todo-List
+
+4.2 Install Dependencies
+
+npm install
+
+4.3 Configure Environment Variables
+
+Create a .env file and add the necessary API keys and database URIs.
+
+4.4 Run the Application Locally
+
+npm run dev
+
+4.5 Access the Application
+
+Once running, the application will be accessible at http://localhost:3000.
+
+
+---
+
+5. Usage Guide
+
+5.1 Creating an Account
+
+1. Navigate to the Signup page.
+
+
+2. Enter valid credentials.
+
+
+3. After registration, log in to access all features.
+
+
+
+5.2 Managing Todos
+
+1. Add Task: Click on "Add Task" and input details.
+
+
+2. Update Task: Use the edit button next to each task to modify it.
+
+
+3. Delete Task: Remove tasks no longer needed.
+
+
+4. Mark as Complete: Track progress by marking tasks as done.
+
+
+
+5.3 Leaving Reviews
+
+1. Navigate to the Review section.
+
+
+2. Rate the app and provide feedback for continuous improvement.
+
+
+
+
+---
+
+6. Project Structure
+
+├── public
+├── src
+│   ├── components
+│   ├── pages
+│   ├── services
+│   ├── utils
+├── .env
+├── package.json
+└── README.md
+
+Components: Reusable components for the UI.
+
+Pages: Main routes for different pages.
+
+Services: API calls and backend communication.
+
+Utils: Helper functions for various tasks.
+
+
+
+---
+
+7. API Documentation
+
+7.1 Authentication
+
+POST /api/auth/signup - Registers a new user.
+
+POST /api/auth/login - Authenticates an existing user.
+
+
+7.2 Todos
+
+GET /api/todos - Retrieves a user's todos.
+
+POST /api/todos - Adds a new task.
+
+PUT /api/todos/:id - Updates a specific task.
+
+DELETE /api/todos/:id - Deletes a specific task.
+
+
+7.3 Reviews
+
+POST /api/reviews - Adds a user review.
+
+
+
+---
+
+8. User Interface & Experience
+
+Clean and Intuitive Design: The UI focuses on ease of use, with minimal distractions.
+
+Efficient Navigation: Users can easily navigate between sections.
+
+Feedback Prompts: Notify users on successful actions like task creation, update, or deletion.
+
+
+
+---
+
+9. Contributing
+
+We welcome contributions from the community! Follow these steps to contribute:
+
+1. Fork the Repository: Create your own fork on GitHub.
+
+
+2. Make Changes: Implement feature additions or bug fixes.
+
+
+3. Submit a Pull Request: Explain the changes in detail.
+
+
+
+
+---
+
+10. Future Enhancements
+
+Task Reminders: Notifications for upcoming deadlines.
+
+Collaboration: Enable team collaboration on tasks.
+
+Advanced Sorting and Filtering: Enhance task organization.
+
+
+
+---
+
+11. License
+
+This project is licensed under the MIT License.
+
