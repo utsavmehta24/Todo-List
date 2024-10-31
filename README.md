@@ -65,70 +65,46 @@ The Todo-List application is an intuitive task management platform aimed at help
 
 ```bash
 git clone https://github.com/utsavmehta24/Todo-List.git
-cd Todo-List```
+cd Todo-List
+```markdown
 
-4.2 Install Dependencies
-
+### 4.2 Install Dependencies
+```bash
 npm install
+```markdown
 
-4.3 Configure Environment Variables
+### 4.3 Configure Environment Variables
+Create a `.env` file and add the necessary API keys and database URIs.
 
-Create a .env file and add the necessary API keys and database URIs.
-
-4.4 Run the Application Locally
-
+### 4.4 Run the Application Locally
+```bash
 npm run dev
+```markdown
 
-4.5 Access the Application
-
-Once running, the application will be accessible at http://localhost:3000.
-
-
+### 4.5 Access the Application
+Once running, the application will be accessible at [http://localhost:3000](http://localhost:3000).
 ---
 
-5. Usage Guide
-
-5.1 Creating an Account
+## 5. Usage Guide
+### 5.1 Creating an Account
 
 1. Navigate to the Signup page.
-
-
 2. Enter valid credentials.
-
-
 3. After registration, log in to access all features.
 
+### 5.2 Managing Todos
+1. **Add Task**: Click on "Add Task" and input details.
+2. **Update Task**: Use the edit button next to each task to modify it.
+3. **Delete Task**: Remove tasks no longer needed.
+4. **Mark as Complete**: Track progress by marking tasks as done.
 
 
-5.2 Managing Todos
-
-1. Add Task: Click on "Add Task" and input details.
-
-
-2. Update Task: Use the edit button next to each task to modify it.
-
-
-3. Delete Task: Remove tasks no longer needed.
-
-
-4. Mark as Complete: Track progress by marking tasks as done.
-
-
-
-5.3 Leaving Reviews
-
+### 5.3 Leaving Reviews
 1. Navigate to the Review section.
-
-
 2. Rate the app and provide feedback for continuous improvement.
-
-
-
-
 ---
-
-6. Project Structure
-
+## 6. Project Structure
+```markdown
 ├── public
 ├── src
 │   ├── components
@@ -137,92 +113,57 @@ Once running, the application will be accessible at http://localhost:3000.
 │   ├── utils
 ├── .env
 ├── package.json
+
 └── README.md
+---
+## 7. API Documentation
+### 7.1 Authentication
 
-Components: Reusable components for the UI.
+- **POST** `/api/auth/signup` - Registers a new user.
 
-Pages: Main routes for different pages.
+- **POST** `/api/auth/login` - Authenticates an existing user.
 
-Services: API calls and backend communication.
+### 7.2 Todos
 
-Utils: Helper functions for various tasks.
+- **GET** `/api/todos` - Retrieves a user's todos.
 
+- **POST** `/api/todos` - Adds a new task.
+
+- **PUT** `/api/todos/:id` - Updates a specific task.
+
+- **DELETE** `/api/todos/:id` - Deletes a specific task.
+
+### 7.3 Reviews
+
+- **POST** `/api/reviews` - Adds a user review.
+
+---
+
+## 8. User Interface & Experience
+
+- Clean and Intuitive Design: The UI focuses on ease of use, with minimal distractions.
+- Efficient Navigation: Users can easily navigate between sections.
+- Feedback Prompts: Notify users on successful actions like task creation, update, or deletion.
 
 
 ---
 
-7. API Documentation
-
-7.1 Authentication
-
-POST /api/auth/signup - Registers a new user.
-
-POST /api/auth/login - Authenticates an existing user.
-
-
-7.2 Todos
-
-GET /api/todos - Retrieves a user's todos.
-
-POST /api/todos - Adds a new task.
-
-PUT /api/todos/:id - Updates a specific task.
-
-DELETE /api/todos/:id - Deletes a specific task.
-
-
-7.3 Reviews
-
-POST /api/reviews - Adds a user review.
-
-
-
----
-
-8. User Interface & Experience
-
-Clean and Intuitive Design: The UI focuses on ease of use, with minimal distractions.
-
-Efficient Navigation: Users can easily navigate between sections.
-
-Feedback Prompts: Notify users on successful actions like task creation, update, or deletion.
-
-
-
----
-
-9. Contributing
+## 9. Contributing
 
 We welcome contributions from the community! Follow these steps to contribute:
 
 1. Fork the Repository: Create your own fork on GitHub.
-
-
 2. Make Changes: Implement feature additions or bug fixes.
-
-
 3. Submit a Pull Request: Explain the changes in detail.
-
-
-
-
 ---
 
-10. Future Enhancements
+## 10. Future Enhancements
 
-Task Reminders: Notifications for upcoming deadlines.
-
-Collaboration: Enable team collaboration on tasks.
-
-Advanced Sorting and Filtering: Enhance task organization.
-
-
-
+- Task Reminders: Notifications for upcoming deadlines.
+- Collaboration: Enable team collaboration on tasks.
+- Advanced Sorting and Filtering: Enhance task organization.
 ---
-
-11. License
-
+## 11. License
 This project is licensed under the MIT License.
-
 
 
