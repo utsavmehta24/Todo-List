@@ -71,7 +71,7 @@ cd Todo-List
 ### 4.2 Install Dependencies
 ```bash
 npm install
-```markdown
+```
 
 ### 4.3 Configure Environment Variables
 Create a `.env` file and add the necessary API keys and database URIs.
@@ -79,7 +79,7 @@ Create a `.env` file and add the necessary API keys and database URIs.
 ### 4.4 Run the Application Locally
 ```bash
 npm run dev
-```markdown
+```
 
 ### 4.5 Access the Application
 Once running, the application will be accessible at [http://localhost:3000](http://localhost:3000).
@@ -104,7 +104,7 @@ Once running, the application will be accessible at [http://localhost:3000](http
 2. Rate the app and provide feedback for continuous improvement.
 ---
 ## 6. Project Structure
-```markdown
+```
 ├── public
 ├── src
 │   ├── components
@@ -115,6 +115,7 @@ Once running, the application will be accessible at [http://localhost:3000](http
 ├── package.json
 
 └── README.md
+```
 ---
 ## 7. API Documentation
 ### 7.1 Authentication
