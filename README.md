@@ -83,7 +83,8 @@ npm run dev
 
 ### 4.5 Access the Application
 
-Once running, the application will be accessible at [http://localhost:3000](http://localhost:3000).
+- Once running, the application will be accessible at [http://localhost:3000](http://localhost:3000).
+
 ---
 
 ## 5. Usage Guide
