@@ -65,7 +65,7 @@ The Todo-List application is an intuitive task management platform aimed at help
 
 ```bash
 git clone https://github.com/utsavmehta24/Todo-List.git
-cd Todo-List
+cd Todo-List```
 
 4.2 Install Dependencies
 
