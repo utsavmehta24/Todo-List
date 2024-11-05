@@ -42,7 +42,7 @@ export default function Slider() {
           </div>
         </div>
         {/* Slide 3 */}
-        <div className="relative bg-gray-600 flex-none w-full flex flex-col items-center justify-center">
+        <div className="relative bg-gray-700 flex-none w-full flex flex-col items-center justify-center">
           <img src="https://th.bing.com/th/id/OIG3.5Dhp5.Qk7oNZ9R4PrObt?pid=ImgGn" alt="Decreased Productivity" className="blur-md w-full rounded-lg flex flex-col items-center justify-center" />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
             <h2 className="text-4xl max-w-md">Decreased Productivity</h2>
