@@ -22,7 +22,7 @@ function MainFeatures() {
                             <div className="space-y-2">
                                 <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">Improved Health</h5>
                                 <p className="text-gray-300">Managing your time effectively reduces stress and prevents burnout, leading to better mental and physical health.</p>
-                                <Link href="/">
+                                <Link href="https://www.who.int/news-room/fact-sheets/detail/mental-health-at-work">
                                     <p className="text-secondary hover:text-white transition">Learn More</p>
                                 </Link>
                             </div>
@@ -34,7 +34,7 @@ function MainFeatures() {
                             <div className="space-y-2">
                                 <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">Increased Productivity</h5>
                                 <p className="text-gray-300">Effective time management allows you to focus on what matters most, boosting your productivity and achieving your goals.</p>
-                                <Link href="/">
+                                <Link href="https://community.thriveglobal.com/boosting-your-productivity-with-simple-powerful-tools-improving-your-workflow-with-automation/">
                                     <p className="text-secondary hover:text-white transition">Learn More</p>
                                 </Link>
                             </div>
@@ -46,7 +46,7 @@ function MainFeatures() {
                             <div className="space-y-2">
                                 <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">Achieve Goals</h5>
                                 <p className="text-gray-300">By organizing your time well, you set clear priorities and goals, making it easier to track progress and achieve desired outcomes.</p>
-                                <Link href="/">
+                                <Link href="https://hbr.org/2022/08/5-ways-to-set-more-achievable-goals">
                                     <p className="text-secondary hover:text-white transition">Learn More</p>
                                 </Link>
                             </div>
@@ -58,7 +58,7 @@ function MainFeatures() {
                             <div className="space-y-2">
                                 <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">Better Work-Life Balance</h5>
                                 <p className="text-gray-300">Good time management helps you balance work and personal life, leading to improved relationships and overall satisfaction.</p>
-                                <Link href="/">
+                                <Link href="https://health.economictimes.indiatimes.com/news/industry/work-life-balance-a-deep-mental-health-crisis-looms/114935368">
                                     <p className="text-secondary hover:text-white transition">Learn More</p>
                                 </Link>
                             </div>
@@ -70,7 +70,7 @@ function MainFeatures() {
                             <div className="space-y-2">
                                 <h5 className="text-xl font-semibold text-white transition group-hover:text-secondary">Career Growth</h5>
                                 <p className="text-gray-300">Effective time management helps you stay organized and focused, which can lead to better career advancement opportunities.</p>
-                                <Link href="/">
+                                <Link href="https://vati.io/career-guide/accelerating-your-career-growth-strategies-and-techniques-for-advancement/">
                                     <p className="text-secondary hover:text-white transition">Learn More</p>
                                 </Link>
                             </div>

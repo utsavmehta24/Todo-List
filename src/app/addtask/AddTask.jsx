@@ -52,7 +52,7 @@ const Addtask = () => {
     <div className="flex items-center justify-center h-screen bg-gray-900 p-10">
       <div className="relative w-full max-w-4xl bg-gray-800 rounded-3xl shadow-xl p-10 flex flex-col md:flex-row">
         <div className="md:w-1/2">
-          <img className="rounded w-full custom-size" src="https://th.bing.com/th/id/OIG4.2ViANPOVbkYSDLsU31Rw?pid=ImgGn" alt="ADD TASK" />
+          <img className="rounded w-full custom-size" src="https://th.bing.com/th/id/OIG1.mSlsDy78oyZlgGcqBnC_?w=1024&h=1024&rs=1&pid=ImgDetMain" alt="ADD TASK" />
         </div>
         <div className="md:w-1/2 mt-4 md:mt-0 md:ml-10">
           <div className="text-2xl font-extrabold text-blue-400 tracking-widest text-center">

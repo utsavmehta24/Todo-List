@@ -94,7 +94,7 @@ const LoginPage = () => {
                 {/* Image Section */}
                 <div className="w-full md:w-6/12 flex justify-center mb-10 md:mb-0">
                     <img
-                        src="https://th.bing.com/th/id/OIG4.fd5mWCok__tCVA9Kuzb6?w=1024&h=1024&rs=1&pid=ImgDetMain"
+                        src="https://th.bing.com/th/id/OIG4.JIpLM5oSmyOfVkAqEbDB?pid=ImgGn"
                         className="rounded-full md:rounded-xl shadow-2xl"
                         alt="Health"
                     />

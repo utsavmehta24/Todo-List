@@ -77,8 +77,8 @@ const ShowTaskPage = () => {
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-900 p-10">
-      <div className="relative w-full max-w-4xl bg-gray-800 rounded-3xl shadow-xl p-10 flex flex-col">
-        <div className="text-2xl font-extrabold text-blue-400 tracking-widest text-center mb-8">
+      <div className="relative w-full max-w-4xl bg-gray-800 rounded-3xl shadow-xl p-13 flex flex-col">
+        <div className="text-2xl font-extrabold text-blue-400 tracking-widest text-center mb-8 p-5">
           Show Tasks <span className="text-white">{`(${tasks.length})`}</span>
         </div>
         {isLoading ? (
