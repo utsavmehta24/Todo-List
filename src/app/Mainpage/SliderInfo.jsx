@@ -4,18 +4,14 @@ import { useEffect } from 'react';
 export default function Slider() {
   useEffect(() => {
     const slider = document.querySelector('#slider');
-    let currentLeft = 0;
+    let currentIndex = 0;
+    const slides = slider.children;
+    const totalSlides = slides.length;
+
     const interval = setInterval(() => {
-      const max = slider.scrollWidth - slider.clientWidth;
-      const left = slider.clientWidth;
-
-      if (currentLeft + left >= max) {
-        currentLeft = 0;
-      } else {
-        currentLeft += left;
-      }
-
-      slider.scrollTo({ left: currentLeft, behavior: 'smooth' });
+      currentIndex = (currentIndex + 1) % totalSlides;
+      const newLeft = slides[currentIndex].offsetLeft;
+      slider.scrollTo({ left: newLeft, behavior: 'smooth' });
     }, 3000); // Adjusted interval for better viewing experience
 
     return () => clearInterval(interval); // Clean up the interval on component unmount
@@ -26,27 +22,35 @@ export default function Slider() {
       <div className="h-screen w-full overflow-hidden flex flex-nowrap text-center bg-gray-700" id="slider">
         {/* Slide 1 */}
         <div className="relative bg-gray-700 flex-none w-full flex flex-col items-center justify-center">
-          <img src="https://th.bing.com/th/id/OIG3.rcqbtX.HXmil.rRhEOWn?pid=ImgGn" alt="Missed Deadlines" className="blur-md w-full rounded-lg flex flex-col items-center justify-center" />
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-            <h2 className="text-4xl max-w-md">Missed Deadlines</h2>
-            <p className="max-w-md">Not managing your tasks effectively often results in missed deadlines and lost opportunities.</p>
+          <img src="https://assets.euromoneydigital.com/dims4/default/f62996c/2147483647/strip/true/crop/2000x1333+0+0/resize/840x560!/quality/90/?url=http%3A%2F%2Feuromoney-brightspot.s3.amazonaws.com%2F07%2Ff1%2Fbe88ebfa4d498c68094ab1466475%2Fadobestock-95012321.jpg" alt="Missed Deadlines" className="w-full rounded-lg" />
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-70 p-4 rounded-lg">
+            <h2 className="text-4xl max-w-md text-black font-bold text-center">Missed Deadlines</h2>
+            <p className="max-w-md text-black text-center">Not managing your tasks effectively often results in missed deadlines and lost opportunities.</p>
           </div>
         </div>
         {/* Slide 2 */}
         <div className="relative bg-gray-700 flex-none w-full flex flex-col items-center justify-center">
-          <img src="https://th.bing.com/th/id/OIG3.ngaKfhg2nF4xz1zRgOKG?pid=ImgGn" alt="Increased Stress" className="blur-md w-full rounded-lg flex flex-col items-center justify-center" />
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-            <h2 className="text-4xl max-w-md">Increased Stress</h2>
-            <p className="max-w-md">Failure to keep track of your tasks can lead to increased stress and anxiety as deadlines approach.</p>
-            <p className="max-w-md mt-4">Stress can manifest physically and emotionally, affecting your overall well-being.</p>
+          <img
+            src="https://www.mccabeandco.com/wp-content/uploads/2018/11/stress-e1541526234162.jpg"
+            alt="Increased Stress"
+            className="w-full rounded-lg"
+          />
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-70 p-4 rounded-lg">
+            <h2 className="text-4xl max-w-md text-black font-bold text-center">Increased Stress</h2>
+            <p className="max-w-md text-black text-center mt-2">
+              Failure to keep track of your tasks can lead to increased stress and anxiety as deadlines approach.
+            </p>
+            <p className="max-w-md text-black text-center mt-4">
+              Stress can manifest physically and emotionally, affecting your overall well-being.
+            </p>
           </div>
         </div>
         {/* Slide 3 */}
         <div className="relative bg-gray-600 flex-none w-full flex flex-col items-center justify-center">
-          <img src="https://th.bing.com/th/id/OIG3.5Dhp5.Qk7oNZ9R4PrObt?pid=ImgGn" alt="Decreased Productivity" className="blur-md w-full rounded-lg flex flex-col items-center justify-center" />
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-            <h2 className="text-4xl max-w-md">Decreased Productivity</h2>
-            <p className="max-w-md">When tasks are not organized, productivity decreases as time is wasted trying to remember what needs to be done.</p>
+          <img src="https://empmonitor.com/blog/wp-content/uploads/2024/07/Decreased-Productivity.webp" alt="Decreased Productivity" className="w-full rounded-lg" />
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-70 p-4 rounded-lg">
+            <h2 className="text-4xl max-w-md text-black font-bold text-center">Decreased Productivity</h2>
+            <p className="max-w-md text-black text-center">When tasks are not organized, productivity decreases as time is wasted trying to remember what needs to be done.</p>
           </div>
         </div>
       </div>

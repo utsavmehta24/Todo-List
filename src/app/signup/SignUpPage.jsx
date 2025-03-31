@@ -92,7 +92,7 @@ const Signup_Page_Client = () => {
                 <div className="flex flex-col items-center w-full lg:flex-row">
                     <div className="w-full lg:w-7/12 relative max-w-md lg:max-w-2xl">
                         <div className="flex flex-col items-center justify-center w-full h-full relative lg:pr-10">
-                            <img src="https://th.bing.com/th/id/OIG4.E2gSScX_4HYmDdc0YzAX?w=1024&h=1024&rs=1&pid=ImgDetMain" className="btn- rounded-full" alt="Health" />
+                            <img src="https://cdn.pixabay.com/photo/2024/04/18/15/06/ai-generated-8704489_1280.jpg" className="btn- rounded-full" alt="Health" />
                         </div>
                     </div>
                     <div className="w-full mt-20 relative z-10 max-w-2xl lg:mt-0 lg:w-5/12">
