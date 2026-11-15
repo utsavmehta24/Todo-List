@@ -37,7 +37,7 @@ class PasswordHasher @Inject constructor() {
         val parts = encoded.split("\$")
         if (parts.size != 4 || parts[0] != PREFIX) return false
 
-        val iterations = parts[1].toIntOrNull()?.takeIf { it > 0 } ?: return false
+        val iterations = parts[1].toIntOrNull()?.takeIf { it in 1..MAX_ITERATIONS } ?: return false
         val salt = decodeBase64(parts[2]) ?: return false
         val expectedHash = decodeBase64(parts[3]) ?: return false
         if (salt.isEmpty() || expectedHash.isEmpty()) return false
@@ -50,6 +50,11 @@ class PasswordHasher @Inject constructor() {
             return false
         }
         return MessageDigest.isEqual(expectedHash, actualHash)
+    }
+
+    /** Burns roughly one verification's worth of CPU; used to equalise timing for unknown accounts. */
+    fun dummyVerify(password: String) {
+        verify(password, DUMMY_HASH)
     }
 
     private fun deriveKey(password: String, salt: ByteArray, iterations: Int, keyBits: Int): ByteArray {
@@ -72,9 +77,13 @@ class PasswordHasher @Inject constructor() {
         }
 
     private companion object {
+        // Valid-format hash of a random value; never matches a real password.
+        const val DUMMY_HASH = "pbkdf2_sha256\$120000\$AAAAAAAAAAAAAAAAAAAAAA==\$AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
         const val PREFIX = "pbkdf2_sha256"
         const val ALGORITHM = "PBKDF2WithHmacSHA256"
         const val ITERATIONS = 120_000
+        /** Upper bound on stored iteration counts, guarding against tampered values. */
+        const val MAX_ITERATIONS = 1_000_000
         const val SALT_BYTES = 16
         const val KEY_BITS = 256
     }

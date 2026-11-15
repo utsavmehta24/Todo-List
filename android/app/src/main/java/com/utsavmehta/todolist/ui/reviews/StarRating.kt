@@ -36,7 +36,7 @@ fun StarRating(
             if (onRatingChange != null) {
                 Icon(
                     imageVector = Icons.Filled.Star,
-                    contentDescription = "$index stars",
+                    contentDescription = if (index == 1) "1 star" else "$index stars",
                     tint = tint,
                     modifier = Modifier
                         .size(starSize)

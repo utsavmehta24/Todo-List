@@ -80,10 +80,16 @@ class AuthRepositoryImpl @Inject constructor(
             Validators.validateLoginPassword(password)?.let { return AppResult.Error(it, FormField.PASSWORD) }
 
             val entity = userDao.findByEmail(Validators.normalizeEmail(email))
-            // Same message for unknown email and wrong password: no user enumeration.
-            if (entity == null ||
-                !withContext(Dispatchers.Default) { passwordHasher.verify(password, entity.passwordHash) }
-            ) {
+            // Same message and comparable timing for unknown email and wrong password: no user enumeration.
+            val verified = withContext(Dispatchers.Default) {
+                if (entity == null) {
+                    passwordHasher.dummyVerify(password)
+                    false
+                } else {
+                    passwordHasher.verify(password, entity.passwordHash)
+                }
+            }
+            if (entity == null || !verified) {
                 return AppResult.Error(ValidationMessages.INVALID_CREDENTIALS)
             }
 
