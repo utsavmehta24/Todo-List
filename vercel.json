@@ -1,0 +1,7 @@
+{
+  "git": {
+    "deploymentEnabled": {
+      "claude/android-app-repo-pe7xbt": false
+    }
+  }
+}
