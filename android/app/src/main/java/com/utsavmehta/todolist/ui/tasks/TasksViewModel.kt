@@ -6,6 +6,8 @@ import com.utsavmehta.todolist.data.repository.AuthRepository
 import com.utsavmehta.todolist.data.repository.TaskRepository
 import com.utsavmehta.todolist.domain.model.AppResult
 import com.utsavmehta.todolist.domain.model.Task
+import com.utsavmehta.todolist.domain.model.TaskStatus
+import com.utsavmehta.todolist.domain.parser.ParsedTaskInput
 import com.utsavmehta.todolist.domain.validation.ValidationMessages
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -59,6 +61,32 @@ class TasksViewModel @Inject constructor(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), TasksUiState())
 
+    fun onAddQuickTask(parsed: ParsedTaskInput) {
+        viewModelScope.launch {
+            val user = authRepository.currentUser.first()
+            if (user == null) {
+                userMessage.value = ValidationMessages.NOT_LOGGED_IN
+                return@launch
+            }
+            val result = taskRepository.addTask(
+                userId = user.id,
+                title = parsed.cleanTitle,
+                description = "",
+                status = TaskStatus.PENDING,
+                priority = parsed.priority,
+                energy = parsed.energy,
+                estimatedMinutes = parsed.estimatedMinutes,
+                dueDate = parsed.dueDate,
+                tags = parsed.tags.joinToString(", "),
+                subtasks = "",
+            )
+            when (result) {
+                is AppResult.Success -> userMessage.value = "Task created with flow tokens"
+                is AppResult.Error -> userMessage.value = result.message
+            }
+        }
+    }
+
     fun onToggleStatus(task: Task) {
         viewModelScope.launch {
             val user = authRepository.currentUser.first()
@@ -70,6 +98,23 @@ class TasksViewModel @Inject constructor(
             if (result is AppResult.Error) {
                 userMessage.value = result.message
             }
+        }
+    }
+
+    fun onUpdateStatus(task: Task, newStatus: TaskStatus) {
+        viewModelScope.launch {
+            val user = authRepository.currentUser.first()
+            if (user == null) {
+                userMessage.value = ValidationMessages.NOT_LOGGED_IN
+                return@launch
+            }
+            taskRepository.updateStatus(task.id, user.id, newStatus)
+        }
+    }
+
+    fun onUpdateTask(task: Task) {
+        viewModelScope.launch {
+            taskRepository.updateTask(task)
         }
     }
 

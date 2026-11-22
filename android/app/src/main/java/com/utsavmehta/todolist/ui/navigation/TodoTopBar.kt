@@ -2,6 +2,7 @@ package com.utsavmehta.todolist.ui.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -15,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.utsavmehta.todolist.ui.components.AboutDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,6 +29,7 @@ fun TodoTopBar(
     onLogout: () -> Unit,
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
+    var showAboutDialog by remember { mutableStateOf(false) }
 
     TopAppBar(
         title = { Text(title) },
@@ -38,6 +41,9 @@ fun TodoTopBar(
             }
         },
         actions = {
+            IconButton(onClick = { showAboutDialog = true }) {
+                Icon(Icons.Filled.Info, contentDescription = "About TaskFlow")
+            }
             IconButton(onClick = { menuExpanded = true }) {
                 Icon(Icons.Filled.MoreVert, contentDescription = "Menu")
             }
@@ -59,6 +65,13 @@ fun TodoTopBar(
                     Item("My Tasks", Routes.TASKS)
                     Item("Write a Review", Routes.WRITE_REVIEW)
                     DropdownMenuItem(
+                        text = { Text("About TaskFlow") },
+                        onClick = {
+                            menuExpanded = false
+                            showAboutDialog = true
+                        },
+                    )
+                    DropdownMenuItem(
                         text = { Text("Log out") },
                         onClick = {
                             menuExpanded = false
@@ -68,8 +81,19 @@ fun TodoTopBar(
                 } else {
                     Item("Log in", Routes.LOGIN)
                     Item("Sign up", Routes.SIGNUP)
+                    DropdownMenuItem(
+                        text = { Text("About TaskFlow") },
+                        onClick = {
+                            menuExpanded = false
+                            showAboutDialog = true
+                        },
+                    )
                 }
             }
         },
     )
+
+    if (showAboutDialog) {
+        AboutDialog(onDismiss = { showAboutDialog = false })
+    }
 }

@@ -94,3 +94,24 @@ The app proudly displays **Built by Utsav** across:
 
 ### Why:
 It establishes professional ownership and credibility for Utsav's portfolio while maintaining a tasteful, sleek aesthetic.
+
+---
+
+## Decision 7: Native Android Architecture Modernization (Jetpack Compose & Room v2)
+
+### What We Did:
+We fully brought the **TaskFlow** philosophy and UI/UX directly into the native Android Jetpack Compose codebase (`android/app/...`):
+1. **Live NLP Quick-Add Bar:** Mobile users can type `#tags`, `!priority`, `@energy`, and `~time` into the floating action bar with real-time parsed token chips.
+2. **Pomodoro Deep-Work Focus Mode:** Native circular canvas progress timer (25 min work / 5 min break) with play/pause/reset/+5m controls and direct task completion.
+3. **Interactive 3-Column Kanban Board:** Native compose columns (To Do, In Progress, Completed) with 1-tap state advancement.
+4. **"What Should I Do Right Now?" Recommender Engine:** Native Kotlin scoring algorithm prioritizing urgency, stamina match, and available minutes.
+5. **Subtasks Checklist:** Expandable subtask checklists embedded directly within each task card.
+6. **Room Database v2:** Migrated database schema with fallback destructive migration, storing energy levels, estimated minutes, priorities, and subtasks natively.
+7. **"⚡ Quick Demo Mode":** 1-tap demo login seeding rich sample tasks without requiring any backend connectivity or manual signup.
+8. **Built by Utsav:** Integrated into the TopAppBar, About dialog with clickable GitHub/LinkedIn links, Dashboard, and Home screens.
+
+### Why:
+Users installing the `.apk` on physical Android devices deserve the exact same modern, fluid, intelligent experience as the web application. Rather than serving a legacy skeleton or a webview, the native Kotlin/Compose architecture delivers native 60fps animations, local offline Room persistence, and a polished mobile UI.
+
+### Alternatives Considered:
+- **Embedding a WebView:** Faster to build, but feels sluggish, lacks native touch feedback, and provides inferior offline UX compared to real Jetpack Compose Material 3 components.

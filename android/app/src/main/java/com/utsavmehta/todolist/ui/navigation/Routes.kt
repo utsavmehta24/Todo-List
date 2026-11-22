@@ -11,7 +11,7 @@ object Routes {
     const val WRITE_REVIEW = "reviews/write"
 
     fun titleFor(route: String?): String = when (route) {
-        HOME -> "TodoList"
+        HOME -> "TaskFlow"
         LOGIN -> "Log in"
         SIGNUP -> "Sign up"
         DASHBOARD -> "Dashboard"
@@ -19,6 +19,6 @@ object Routes {
         ADD_TASK -> "Add Task"
         REVIEWS -> "Reviews"
         WRITE_REVIEW -> "Write a Review"
-        else -> "TodoList"
+        else -> "TaskFlow"
     }
 }

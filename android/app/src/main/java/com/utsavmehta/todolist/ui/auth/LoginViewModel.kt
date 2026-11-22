@@ -39,6 +39,12 @@ class LoginViewModel @Inject constructor(
         _uiState.update { it.copy(password = value, passwordError = null, formError = null) }
     }
 
+    fun onQuickDemo() {
+        viewModelScope.launch {
+            authRepository.quickDemoLogin()
+        }
+    }
+
     fun onSubmit() {
         val current = _uiState.value
         if (current.isSubmitting) return
@@ -59,7 +65,6 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             when (val result = authRepository.login(email, password)) {
                 is AppResult.Success -> {
-                    // The session flips and the GuestGuard navigates away; nothing else to do here.
                     _uiState.update { it.copy(isSubmitting = false) }
                 }
                 is AppResult.Error -> _uiState.update { state ->

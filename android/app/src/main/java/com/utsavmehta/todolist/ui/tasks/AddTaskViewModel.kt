@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.utsavmehta.todolist.data.repository.AuthRepository
 import com.utsavmehta.todolist.data.repository.TaskRepository
 import com.utsavmehta.todolist.domain.model.AppResult
+import com.utsavmehta.todolist.domain.model.Energy
 import com.utsavmehta.todolist.domain.model.FormField
+import com.utsavmehta.todolist.domain.model.Priority
 import com.utsavmehta.todolist.domain.model.TaskStatus
 import com.utsavmehta.todolist.domain.validation.ValidationMessages
 import com.utsavmehta.todolist.domain.validation.Validators
@@ -22,6 +24,11 @@ data class AddTaskUiState(
     val title: String = "",
     val description: String = "",
     val status: TaskStatus = TaskStatus.PENDING,
+    val priority: Priority = Priority.MEDIUM,
+    val energy: Energy = Energy.MEDIUM,
+    val estimatedMinutes: Int = 25,
+    val tags: String = "",
+    val subtasks: String = "",
     val titleError: String? = null,
     val descriptionError: String? = null,
     val isSaving: Boolean = false,
@@ -50,12 +57,37 @@ class AddTaskViewModel @Inject constructor(
         _uiState.update { it.copy(status = status) }
     }
 
+    fun onPriorityChange(priority: Priority) {
+        _uiState.update { it.copy(priority = priority) }
+    }
+
+    fun onEnergyChange(energy: Energy) {
+        _uiState.update { it.copy(energy = energy) }
+    }
+
+    fun onEstimatedMinutesChange(minutes: Int) {
+        _uiState.update { it.copy(estimatedMinutes = minutes) }
+    }
+
+    fun onTagsChange(tags: String) {
+        _uiState.update { it.copy(tags = tags) }
+    }
+
+    fun onSubtasksChange(subtasks: String) {
+        _uiState.update { it.copy(subtasks = subtasks) }
+    }
+
     fun onClear() {
         _uiState.update {
             it.copy(
                 title = "",
                 description = "",
                 status = TaskStatus.PENDING,
+                priority = Priority.MEDIUM,
+                energy = Energy.MEDIUM,
+                estimatedMinutes = 25,
+                tags = "",
+                subtasks = "",
                 titleError = null,
                 descriptionError = null,
             )
@@ -73,7 +105,6 @@ class AddTaskViewModel @Inject constructor(
             return
         }
 
-        // Flip the flag synchronously so a double tap cannot start a second save.
         _uiState.update { it.copy(isSaving = true) }
 
         viewModelScope.launch {
@@ -88,6 +119,11 @@ class AddTaskViewModel @Inject constructor(
                 title = current.title,
                 description = current.description,
                 status = current.status,
+                priority = current.priority,
+                energy = current.energy,
+                estimatedMinutes = current.estimatedMinutes,
+                tags = current.tags,
+                subtasks = current.subtasks,
             )) {
                 is AppResult.Success -> {
                     _uiState.update { it.copy(isSaving = false, saved = true) }

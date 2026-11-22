@@ -3,15 +3,16 @@ package com.utsavmehta.todolist.data.repository
 import com.utsavmehta.todolist.data.local.dao.TaskDao
 import com.utsavmehta.todolist.data.local.entity.TaskEntity
 import com.utsavmehta.todolist.data.local.entity.toDomain
+import com.utsavmehta.todolist.data.local.entity.toEntity
 import com.utsavmehta.todolist.domain.model.AppResult
+import com.utsavmehta.todolist.domain.model.Energy
 import com.utsavmehta.todolist.domain.model.FormField
+import com.utsavmehta.todolist.domain.model.Priority
 import com.utsavmehta.todolist.domain.model.Task
 import com.utsavmehta.todolist.domain.model.TaskStats
 import com.utsavmehta.todolist.domain.model.TaskStatus
-import com.utsavmehta.todolist.domain.validation.ValidationMessages
 import com.utsavmehta.todolist.domain.validation.Validators
 import javax.inject.Inject
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -30,70 +31,50 @@ class TaskRepositoryImpl @Inject constructor(
         title: String,
         description: String,
         status: TaskStatus,
+        priority: Priority,
+        energy: Energy,
+        estimatedMinutes: Int,
+        dueDate: Long?,
+        tags: String,
+        subtasks: String,
     ): AppResult<Task> {
-        Validators.validateTaskTitle(title)?.let { message ->
-            return AppResult.Error(message, FormField.TITLE)
-        }
-        Validators.validateTaskDescription(description)?.let { message ->
-            return AppResult.Error(message, FormField.DESCRIPTION)
-        }
-        val cleanTitle = title.trim()
-        val cleanDescription = description.trim()
-        return try {
-            val now = System.currentTimeMillis()
-            val generatedId = taskDao.insert(
-                TaskEntity(
-                    userId = userId,
-                    title = cleanTitle,
-                    description = cleanDescription,
-                    status = status.storageValue,
-                    addedDate = now,
-                ),
-            )
-            AppResult.Success(
-                Task(
-                    id = generatedId,
-                    userId = userId,
-                    title = cleanTitle,
-                    description = cleanDescription,
-                    status = status,
-                    addedDate = now,
-                ),
-            )
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            AppResult.Error(ValidationMessages.GENERIC)
-        }
+        val titleError = Validators.validateTaskTitle(title)
+        if (titleError != null) return AppResult.Error(titleError, FormField.TITLE)
+
+        val descError = Validators.validateTaskDescription(description)
+        if (descError != null) return AppResult.Error(descError, FormField.DESCRIPTION)
+
+        val now = System.currentTimeMillis()
+        val entity = TaskEntity(
+            userId = userId,
+            title = title.trim(),
+            description = description.trim(),
+            status = status.storageValue,
+            addedDate = now,
+            priority = priority.name,
+            energy = energy.name,
+            estimatedMinutes = estimatedMinutes,
+            dueDate = dueDate,
+            tags = tags.trim(),
+            subtasks = subtasks.trim(),
+        )
+
+        val id = taskDao.insert(entity)
+        return AppResult.Success(entity.copy(id = id).toDomain())
     }
 
-    override suspend fun updateStatus(
-        taskId: Long,
-        userId: Long,
-        status: TaskStatus,
-    ): AppResult<Unit> = try {
+    override suspend fun updateTask(task: Task): AppResult<Unit> {
+        val rows = taskDao.update(task.toEntity())
+        return if (rows > 0) AppResult.Success(Unit) else AppResult.Error("Task not found")
+    }
+
+    override suspend fun updateStatus(taskId: Long, userId: Long, status: TaskStatus): AppResult<Unit> {
         val rows = taskDao.updateStatus(taskId, userId, status.storageValue)
-        if (rows == 0) {
-            AppResult.Error(ValidationMessages.TASK_NOT_FOUND)
-        } else {
-            AppResult.Success(Unit)
-        }
-    } catch (e: CancellationException) {
-        throw e
-    } catch (e: Exception) {
-        AppResult.Error(ValidationMessages.GENERIC)
+        return if (rows > 0) AppResult.Success(Unit) else AppResult.Error("Task not found")
     }
 
-    override suspend fun deleteTask(taskId: Long, userId: Long): AppResult<Unit> = try {
+    override suspend fun deleteTask(taskId: Long, userId: Long): AppResult<Unit> {
         val rows = taskDao.delete(taskId, userId)
-        if (rows == 0) {
-            AppResult.Error(ValidationMessages.TASK_NOT_FOUND)
-        } else {
-            AppResult.Success(Unit)
-        }
-    } catch (e: CancellationException) {
-        throw e
-    } catch (e: Exception) {
-        AppResult.Error(ValidationMessages.GENERIC)
+        return if (rows > 0) AppResult.Success(Unit) else AppResult.Error("Task not found")
     }
 }

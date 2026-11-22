@@ -227,13 +227,23 @@ npm run build
 npm run start
 ```
 
-### 6. Build the Android Native App (APK)
+### 6. Build & Install the Android Native App (APK)
 ```bash
 cd android
 ./gradlew :app:assembleDebug
 ```
 The compiled APK will be generated at:
-`android/app/build/outputs/apk/debug/app-debug.apk`
+`android/app/build/outputs/apk/debug/app-debug.apk` (also mirrored at `downloads/app-debug.apk` and `public/app-debug.apk`).
+
+#### 📱 Native Android Features in Jetpack Compose:
+- **⚡ 1-Tap Quick Demo Mode**: Test on physical phones immediately with pre-loaded demo tasks—no account signup or remote backend required.
+- **⚡ NLP Quick-Add Bar**: Type `#tag`, `!priority`, `@energy`, `~time` into the bottom action bar with live visual chip parsing.
+- **⏱️ Native Pomodoro Focus Mode**: Smooth circular canvas progress ring with 25m/5m cycles, pause/play/reset controls, and direct task completion.
+- **📋 3-Column Kanban Board**: Native Material 3 columns (To Do, In Progress, Completed) with 1-tap state progression.
+- **🎯 "What Should I Do Right Now?" Recommender**: Native Kotlin scoring algorithm isolating the highest-leverage task for your available stamina and time.
+- **☑️ Subtasks Checklist**: Interactive checkboxes directly embedded inside task cards.
+- **💾 Room Database v2**: Full local offline persistence with fallback destructive migration.
+- **✨ Built by Utsav**: Attribution embedded in the TopBar, About dialog with GitHub/LinkedIn links, and Dashboard.
 
 ---
 

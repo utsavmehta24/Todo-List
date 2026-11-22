@@ -23,7 +23,12 @@ data class TaskEntity(
     @ColumnInfo(name = "user_id") val userId: Long,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "description") val description: String,
-    /** TaskStatus.storageValue: "pending" or "completed". */
     @ColumnInfo(name = "status") val status: String,
     @ColumnInfo(name = "added_date") val addedDate: Long,
+    @ColumnInfo(name = "priority", defaultValue = "MEDIUM") val priority: String = "MEDIUM",
+    @ColumnInfo(name = "energy", defaultValue = "MEDIUM") val energy: String = "MEDIUM",
+    @ColumnInfo(name = "estimated_minutes", defaultValue = "25") val estimatedMinutes: Int = 25,
+    @ColumnInfo(name = "due_date") val dueDate: Long? = null,
+    @ColumnInfo(name = "tags", defaultValue = "") val tags: String = "",
+    @ColumnInfo(name = "subtasks", defaultValue = "") val subtasks: String = "",
 )

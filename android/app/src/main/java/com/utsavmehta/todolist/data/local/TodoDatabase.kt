@@ -11,7 +11,7 @@ import com.utsavmehta.todolist.data.local.entity.UserEntity
 
 @Database(
     entities = [UserEntity::class, TaskEntity::class, ReviewEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false,
 )
 abstract class TodoDatabase : RoomDatabase() {

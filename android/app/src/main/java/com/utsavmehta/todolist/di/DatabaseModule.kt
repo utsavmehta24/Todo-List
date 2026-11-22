@@ -20,7 +20,9 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): TodoDatabase =
-        Room.databaseBuilder(context, TodoDatabase::class.java, TodoDatabase.NAME).build()
+        Room.databaseBuilder(context, TodoDatabase::class.java, TodoDatabase.NAME)
+            .fallbackToDestructiveMigration()
+            .build()
 
     @Provides
     fun provideUserDao(db: TodoDatabase): UserDao = db.userDao()

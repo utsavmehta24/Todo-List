@@ -7,4 +7,10 @@ data class Task(
     val description: String,
     val status: TaskStatus,
     val addedDate: Long,
+    val priority: Priority = Priority.MEDIUM,
+    val energy: Energy = Energy.MEDIUM,
+    val estimatedMinutes: Int = 25,
+    val dueDate: Long? = null,
+    val tags: String = "",
+    val subtasks: String = "",
 )
