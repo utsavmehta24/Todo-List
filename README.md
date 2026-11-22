@@ -93,7 +93,18 @@ Switch seamlessly between distinct mental models without losing context:
 ### ⌨️ 8. Command Palette (`Ctrl+K`) & Keyboard Shortcuts
 - Press `Ctrl+K` or `Cmd+K` anywhere to open the command palette.
 - Instantly search tasks, jump to Kanban/Calendar/Focus views, or trigger the Recommender.
-- Press `Escape` to close modals.
+- Press `Escape` to close modals, `N` for new task, and numbers `1-5` for instant view switching.
+
+### 🧩 9. Dual-Platform Productivity Widgets ("Widget Option")
+- **Web & Desktop Widgets Hub**: A customizable dashboard of glanceable productivity widgets:
+  - ⏱️ Pomodoro Sprint Timer widget
+  - 🎯 Next Best Action recommender widget
+  - 📊 Daily velocity and streak gauge widget
+  - 📅 Today's scheduled agenda widget
+  - 📝 Sticky brain-dump scratchpad widget (autosaved)
+  - 💡 Daily mindset & motivation quotes widget
+- **Always-On Floating Desk Widget**: Picture-in-picture floating mini-widget pinned in the corner of your screen with active task check-off and live timer controls.
+- **Android Home Screen AppWidget**: Native Android widget (`widget_taskflow.xml`) allowing you to pin TaskFlow directly to your phone's home screen for instant flow access.
 
 ---
 
@@ -164,13 +175,13 @@ Score = UrgencyScore (0-50) + PriorityScore (0-30) + EnergyMatchScore (0-15) + T
 
 | Layer | Technology | Purpose |
 |---|---|---|
-| **Framework** | Next.js 14 (App Router) | Server-rendered shell, fast client routing, dynamic API routes |
+| **Framework** | Vite 8 + React 18 SPA | Blazing-fast 10ms HMR, zero SSR overhead, Linear-grade single-window workspace |
 | **Language** | JavaScript (ES6+) / TypeScript / Kotlin | Full-stack web and native mobile clients |
 | **State Management** | Zustand (`persist` middleware) | Reactive, un-opinionated, zero-boilerplate local-first store |
 | **Styling** | Tailwind CSS + Lucide Icons | Responsive modern design system with dark mode accents |
 | **Micro-Interactions** | Framer Motion + Canvas-Confetti | Smooth layout springs, card entry animations, dopamine cues |
 | **Audio Synthesizer**| HTML5 Web Audio API | Zero-asset, zero-latency chimes for Pomodoro timers |
-| **Mobile App** | Android SDK 34, Jetpack Compose | Native Android application with Material3 styling |
+| **Mobile App** | Android SDK 34, Jetpack Compose | Native Android application with Material3 styling & Home Screen Widget |
 | **Database** | MongoDB Atlas with Mongoose | Cloud synchronization and cross-device persistence |
 | **AI Engine** | Google Gemini API + Local Fallback | Context-aware subtask deconstruction and daily planning |
 | **Testing** | Vitest + Gradle Android Test | Automated test runners verifying core logic and compilation |

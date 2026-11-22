@@ -73,6 +73,9 @@ export const useTaskStore = create(
             isAboutOpen: false,
             isCommandPaletteOpen: false,
             isRecommendModalOpen: false,
+            isFloatingWidgetOpen: false, // Floating Mini Desk Widget toggle
+            selectedTaskForDrawer: null, // Slide-over Task Inspector drawer task ID
+            scratchpadNote: "Welcome to TaskFlow! Use this sticky scratchpad to dump quick ideas, meeting notes, or temporary links. Autosaved locally.",
             syncStatus: "local_only", // 'synced' | 'syncing' | 'local_only' | 'error'
 
             // Focus Timer state
@@ -90,6 +93,9 @@ export const useTaskStore = create(
             setSelectedTag: (selectedTag) => set({ selectedTag, activeFilter: "all" }),
             setSearchQuery: (searchQuery) => set({ searchQuery }),
             setSelectedTaskIdForFocus: (id) => set({ selectedTaskIdForFocus: id }),
+            setSelectedTaskForDrawer: (id) => set({ selectedTaskForDrawer: id }),
+            toggleFloatingWidget: (open) => set((s) => ({ isFloatingWidgetOpen: open !== undefined ? open : !s.isFloatingWidgetOpen })),
+            setScratchpadNote: (scratchpadNote) => set({ scratchpadNote }),
             toggleAbout: (open) => set((s) => ({ isAboutOpen: open !== undefined ? open : !s.isAboutOpen })),
             toggleCommandPalette: (open) => set((s) => ({ isCommandPaletteOpen: open !== undefined ? open : !s.isCommandPaletteOpen })),
             toggleRecommendModal: (open) => set((s) => ({ isRecommendModalOpen: open !== undefined ? open : !s.isRecommendModalOpen })),
@@ -221,6 +227,70 @@ export const useTaskStore = create(
                             : t
                     ),
                 }));
+            },
+
+            aiDeconstructTask: async (taskId) => {
+                const task = get().tasks.find((t) => t._id === taskId);
+                if (!task) return;
+
+                let generatedSubtasks = [];
+                try {
+                    const res = await fetch("/api/ai", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ action: "deconstruct", title: task.title, description: task.description }),
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (Array.isArray(data.subtasks) && data.subtasks.length > 0) {
+                            generatedSubtasks = data.subtasks.map((s, idx) => ({
+                                id: `sub_ai_${Date.now()}_${idx}`,
+                                title: s.title || s,
+                                completed: false,
+                            }));
+                        }
+                    }
+                } catch (e) {
+                    // Fallback to local heuristic deconstruction
+                }
+
+                if (generatedSubtasks.length === 0) {
+                    const lower = (task.title + " " + (task.description || "")).toLowerCase();
+                    if (lower.includes("paper") || lower.includes("report") || lower.includes("write") || lower.includes("essay")) {
+                        generatedSubtasks = [
+                            { id: `sub_${Date.now()}_1`, title: "Outline core sections & arguments", completed: false },
+                            { id: `sub_${Date.now()}_2`, title: "Draft main body paragraphs & citations", completed: false },
+                            { id: `sub_${Date.now()}_3`, title: "Proofread and polish conclusion", completed: false },
+                        ];
+                    } else if (lower.includes("bug") || lower.includes("fix") || lower.includes("code") || lower.includes("feature")) {
+                        generatedSubtasks = [
+                            { id: `sub_${Date.now()}_1`, title: "Reproduce issue & inspect logs", completed: false },
+                            { id: `sub_${Date.now()}_2`, title: "Implement fix / core logic", completed: false },
+                            { id: `sub_${Date.now()}_3`, title: "Write unit test and verify edge cases", completed: false },
+                        ];
+                    } else if (lower.includes("exam") || lower.includes("study") || lower.includes("read")) {
+                        generatedSubtasks = [
+                            { id: `sub_${Date.now()}_1`, title: "Skim chapter headings & summarize notes", completed: false },
+                            { id: `sub_${Date.now()}_2`, title: "Solve 3 practice questions", completed: false },
+                            { id: `sub_${Date.now()}_3`, title: "Active recall review of formula sheet", completed: false },
+                        ];
+                    } else {
+                        generatedSubtasks = [
+                            { id: `sub_${Date.now()}_1`, title: "Define acceptance criteria & scope", completed: false },
+                            { id: `sub_${Date.now()}_2`, title: "Execute the core 80% work block", completed: false },
+                            { id: `sub_${Date.now()}_3`, title: "Review, refine, and check off", completed: false },
+                        ];
+                    }
+                }
+
+                set((state) => ({
+                    tasks: state.tasks.map((t) =>
+                        t._id === taskId
+                            ? { ...t, subtasks: [...(t.subtasks || []), ...generatedSubtasks] }
+                            : t
+                    ),
+                }));
+                return generatedSubtasks;
             },
 
             reorderTasks: (newTasks) => {

@@ -153,6 +153,7 @@ export function parseNaturalLanguageTask(input) {
 
     return {
         title: cleanTitle || input.trim(),
+        cleanTitle: cleanTitle || input.trim(),
         tags,
         priority,
         energy,
@@ -161,3 +162,6 @@ export function parseNaturalLanguageTask(input) {
         project,
     };
 }
+
+export const parseTaskInput = parseNaturalLanguageTask;
+
