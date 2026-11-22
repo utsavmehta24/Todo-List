@@ -1,24 +1,34 @@
 import mongoose from "mongoose";
 
+let isConnecting = false;
+
 export async function connectDb() {
     try {
-        // Check if the default connection is already open
-        if (mongoose.connection.readyState === 1) { // 1 means connected
-            console.log("MongoDB is already connected");
-            return;
+        if (mongoose.connection.readyState === 1) {
+            return true;
         }
-        
-        // Establish a new connection
+
+        if (isConnecting) {
+            return false;
+        }
+
+        if (!process.env.MONGO_DB_URL) {
+            console.warn("MONGO_DB_URL is not defined in environment.");
+            return false;
+        }
+
+        isConnecting = true;
         await mongoose.connect(process.env.MONGO_DB_URL, {
             dbName: "Work_manager",
-            useNewUrlParser: true, // To handle deprecation warnings
-            useUnifiedTopology: true, // To handle deprecation warnings
+            serverSelectionTimeoutMS: 3000, // Timeout fast instead of hanging builds
         });
 
-        console.log("MongoDB connected");
-
+        console.log("MongoDB connected successfully");
+        isConnecting = false;
+        return true;
     } catch (error) {
-        console.log("Failed to connect to MongoDB");
-        console.log(error);
+        isConnecting = false;
+        console.warn("Failed to connect to MongoDB (continuing in local-first mode):", error.message);
+        return false;
     }
 }

@@ -4,25 +4,68 @@ const taskSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
+        trim: true,
     },
     description: {
         type: String,
-        required: true,
+        default: "",
     },
     status: {
         type: String,
-        enum: ['pending', 'completed'],
+        enum: ['pending', 'in_progress', 'completed'],
+        default: 'pending',
         required: true,
+    },
+    priority: {
+        type: String,
+        enum: ['low', 'medium', 'high', 'urgent'],
+        default: 'medium',
+    },
+    energy: {
+        type: String,
+        enum: ['quick_win', 'low', 'medium', 'high'],
+        default: 'medium',
+    },
+    estimatedMinutes: {
+        type: Number,
+        default: 30,
+    },
+    dueDate: {
+        type: Date,
+        default: null,
+    },
+    tags: {
+        type: [String],
+        default: [],
+    },
+    project: {
+        type: String,
+        default: "General",
+    },
+    subtasks: [{
+        id: { type: String, required: true },
+        title: { type: String, required: true },
+        completed: { type: Boolean, default: false }
+    }],
+    recurring: {
+        type: String,
+        enum: ['none', 'daily', 'weekly', 'monthly'],
+        default: 'none',
     },
     addedDate: {
         type: Date,
-        required: true,
-        default: Date.now(),
+        default: Date.now,
+    },
+    completedAt: {
+        type: Date,
+        default: null,
     },
     userId: {
-        type: mongoose.ObjectId, 
-        required: true
+        type: mongoose.Schema.Types.Mixed,
+        required: true,
     }
+}, {
+    timestamps: true,
 });
 
 export const task = mongoose.models.task || mongoose.model("task", taskSchema);

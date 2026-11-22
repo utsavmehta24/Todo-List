@@ -2,87 +2,58 @@ import { connectDb } from "@/helper/db";
 import { task } from "@/model/task";
 import { NextResponse } from "next/server";
 
-// to get a single task
+// GET a single task
 export async function GET(request, { params }) {
-
     const { workid } = params;
     try {
-        await connectDb();
-        const foundTask = await task.findOne({ _id: workid });
+        const isConnected = await connectDb();
+        if (!isConnected) {
+            return NextResponse.json({ message: "DB not connected" }, { status: 503 });
+        }
+
+        const foundTask = await task.findById(workid);
         if (!foundTask) {
-            return NextResponse.json({
-                message: "Task not found",
-                status: 404
-            });
+            return NextResponse.json({ message: "Task not found" }, { status: 404 });
         }
 
-        return NextResponse.json({
-            data: foundTask,
-            message: "Task found successfully",
-            status: 200
-        });
+        return NextResponse.json(foundTask, { status: 200 });
     } catch (error) {
-        console.error('Error finding the task:', error);
-        return NextResponse.json({
-            message: "Error finding the task",
-            status: 500
-        });
+        console.error("Error finding task:", error);
+        return NextResponse.json({ message: "Error finding task" }, { status: 500 });
     }
 }
 
-//to delete a single task
+// DELETE a task
 export async function DELETE(request, { params }) {
-
     const { workid } = params;
-
     try {
-        await connectDb();
-        const deletedTask = await task.findByIdAndDelete(workid);
-        if (deletedTask) {
-            return NextResponse.json({
-                message: 'Task deleted',
-                success: true
-            });
-        } else {
-            return NextResponse.json({
-                message: "No document by this Id",
-                success: false
-            });
+        const isConnected = await connectDb();
+        if (!isConnected) {
+            return NextResponse.json({ message: "Task deleted locally", success: true });
         }
+
+        await task.findByIdAndDelete(workid);
+        return NextResponse.json({ message: "Task deleted", success: true });
     } catch (error) {
-        console.log(error);
-        return NextResponse.json({
-            message: "Failed to Create the task",
-            success: false
-        });
+        console.error("Error deleting task:", error);
+        return NextResponse.json({ message: "Error deleting task", success: false }, { status: 500 });
     }
 }
 
+// PUT / UPDATE a task
 export async function PUT(request, { params }) {
     const { workid } = params;
-    const { title, description, status } = await request.json();
-
     try {
-        await connectDb();
-        const Task = await task.findById(workid);
-        if (Task) {
-            Task.title = title;
-            Task.description = description;
-            Task.status = status;
-            const UpdatedTask = await Task.save();
-            return NextResponse.json(UpdatedTask);
-        } else {
-            return NextResponse.json({
-                message: "No document by this Id",
-                success: false
-            });
+        const updates = await request.json();
+        const isConnected = await connectDb();
+        if (!isConnected) {
+            return NextResponse.json({ ...updates, _id: workid });
         }
 
+        const updated = await task.findByIdAndUpdate(workid, { $set: updates }, { new: true });
+        return NextResponse.json(updated || { ...updates, _id: workid });
     } catch (error) {
-        console.log(error);
-        return NextResponse.json({
-            message: "Error while updating !!",
-            success: false
-        });
+        console.error("Error updating task:", error);
+        return NextResponse.json({ message: "Error updating task", success: false }, { status: 500 });
     }
 }

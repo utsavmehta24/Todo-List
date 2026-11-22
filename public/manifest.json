@@ -1,0 +1,17 @@
+{
+  "name": "TaskFlow by Utsav",
+  "short_name": "TaskFlow",
+  "description": "Energy-Aware Flow Engine for Modern Task Management - Built by Utsav",
+  "start_url": "/showtask",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#4f46e5",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
