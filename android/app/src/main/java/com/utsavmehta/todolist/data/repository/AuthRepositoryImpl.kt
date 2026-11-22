@@ -20,6 +20,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
@@ -32,10 +33,80 @@ class AuthRepositoryImpl @Inject constructor(
     private val passwordHasher: PasswordHasher,
 ) : AuthRepository {
 
+    private suspend fun ensureDefaultUser(): User {
+        val demoEmail = "demo@taskflow.dev"
+        var user = userDao.findByEmail(demoEmail)
+        if (user == null) {
+            val hash = withContext(Dispatchers.Default) { passwordHasher.hash("demo1234") }
+            val newId = userDao.insert(
+                UserEntity(
+                    name = "Utsav Mehta",
+                    email = demoEmail,
+                    passwordHash = hash,
+                    createdAt = System.currentTimeMillis(),
+                )
+            )
+            val now = System.currentTimeMillis()
+            val tomorrow = now + 86400000L
+            taskDao.insert(
+                TaskEntity(
+                    userId = newId,
+                    title = "Deploy TaskFlow Android Release",
+                    description = "Verify Jetpack Compose Material 3 screens, NLP quick-add, and Pomodoro mode.",
+                    status = "pending",
+                    addedDate = now,
+                    priority = "URGENT",
+                    energy = "HIGH",
+                    estimatedMinutes = 30,
+                    dueDate = tomorrow,
+                    tags = "dev, launch",
+                    subtasks = "[ ] Review git commits; [ ] Test on Android; [ ] Post announcement",
+                )
+            )
+            taskDao.insert(
+                TaskEntity(
+                    userId = newId,
+                    title = "Reply to team messages & sync",
+                    description = "Quick status updates and feedback turnaround.",
+                    status = "pending",
+                    addedDate = now - 3600000L,
+                    priority = "LOW",
+                    energy = "QUICK_WIN",
+                    estimatedMinutes = 15,
+                    dueDate = now + 7200000L,
+                    tags = "communication",
+                    subtasks = "[ ] Inbox zero; [ ] Check Slack",
+                )
+            )
+            taskDao.insert(
+                TaskEntity(
+                    userId = newId,
+                    title = "Refactor NLP parser tokenizer",
+                    description = "Support flexible duration syntax (~45m, ~1.5h) and priority flags.",
+                    status = "in_progress",
+                    addedDate = now - 7200000L,
+                    priority = "HIGH",
+                    energy = "HIGH",
+                    estimatedMinutes = 45,
+                    dueDate = tomorrow,
+                    tags = "architecture",
+                    subtasks = "[x] Regex test suite; [ ] Android Compose parser",
+                )
+            )
+            user = userDao.findByEmail(demoEmail)
+        }
+        val finalUser = user ?: UserEntity(id = 1L, name = "Utsav Mehta", email = demoEmail, passwordHash = "", createdAt = 0L)
+        sessionManager.startSession(finalUser.id)
+        return finalUser.toDomain()
+    }
+
     override val currentUser: Flow<User?> = sessionManager.currentUserId
         .flatMapLatest { id ->
             if (id == null) {
-                flowOf<User?>(null)
+                flow {
+                    val defaultUser = ensureDefaultUser()
+                    emit(defaultUser)
+                }
             } else {
                 userDao.observeById(id).map { it?.toDomain() }
             }
@@ -106,76 +177,8 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun quickDemoLogin(): AppResult<User> {
         return try {
-            val demoEmail = "demo@taskflow.dev"
-            var user = userDao.findByEmail(demoEmail)
-            if (user == null) {
-                val hash = withContext(Dispatchers.Default) { passwordHasher.hash("demo1234") }
-                val newId = userDao.insert(
-                    UserEntity(
-                        name = "Utsav Mehta",
-                        email = demoEmail,
-                        passwordHash = hash,
-                        createdAt = System.currentTimeMillis(),
-                    )
-                )
-                user = userDao.findByEmail(demoEmail)
-
-                // Pre-seed sample tasks demonstrating TaskFlow superpowers
-                val now = System.currentTimeMillis()
-                val tomorrow = now + 86400000L
-                taskDao.insert(
-                    TaskEntity(
-                        userId = newId,
-                        title = "Ship release notes to users",
-                        description = "Draft concise bullet points covering the new flow engine, NLP, and Pomodoro mode.",
-                        status = "pending",
-                        addedDate = now,
-                        priority = "URGENT",
-                        energy = "HIGH",
-                        estimatedMinutes = 30,
-                        dueDate = tomorrow,
-                        tags = "dev, launch",
-                        subtasks = "[ ] Review git commits; [ ] Write changelog; [ ] Post announcement",
-                    )
-                )
-                taskDao.insert(
-                    TaskEntity(
-                        userId = newId,
-                        title = "Reply to client emails",
-                        description = "Quick status updates and feedback turnaround.",
-                        status = "pending",
-                        addedDate = now - 3600000L,
-                        priority = "LOW",
-                        energy = "QUICK_WIN",
-                        estimatedMinutes = 15,
-                        dueDate = now + 7200000L,
-                        tags = "communication",
-                        subtasks = "[ ] Inbox zero; [ ] Send calendar invites",
-                    )
-                )
-                taskDao.insert(
-                    TaskEntity(
-                        userId = newId,
-                        title = "Refactor NLP parser tokenizer",
-                        description = "Support flexible duration syntax (~45m, ~1.5h) and priority flags.",
-                        status = "in_progress",
-                        addedDate = now - 7200000L,
-                        priority = "HIGH",
-                        energy = "HIGH",
-                        estimatedMinutes = 45,
-                        dueDate = tomorrow,
-                        tags = "architecture",
-                        subtasks = "[x] Regex test suite; [ ] Android Compose parser",
-                    )
-                )
-            }
-
-            if (user != null) {
-                sessionManager.startSession(user.id)
-                AppResult.Success(user.toDomain())
-            } else {
-                AppResult.Error("Could not create demo session")
-            }
+            val user = ensureDefaultUser()
+            AppResult.Success(user)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {

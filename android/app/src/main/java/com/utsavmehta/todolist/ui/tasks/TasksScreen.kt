@@ -77,13 +77,14 @@ enum class TaskFilter(val label: String) {
 @Composable
 fun TasksScreen(
     onAddTask: () -> Unit,
+    initialTab: Int = 0,
     modifier: Modifier = Modifier,
     viewModel: TasksViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = LocalSnackbarHostState.current
 
-    var selectedTab by remember { mutableIntStateOf(0) } // 0 = List, 1 = Kanban, 2 = Focus
+    var selectedTab by remember(initialTab) { mutableIntStateOf(initialTab) } // 0 = List, 1 = Kanban, 2 = Focus
     var selectedFilter by remember { mutableStateOf(TaskFilter.ALL) }
     var activeFocusTask by remember { mutableStateOf<Task?>(null) }
     var showRecommender by remember { mutableStateOf(false) }

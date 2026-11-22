@@ -15,7 +15,9 @@ import com.utsavmehta.todolist.ui.home.HomeScreen
 import com.utsavmehta.todolist.ui.reviews.ReviewsScreen
 import com.utsavmehta.todolist.ui.reviews.WriteReviewScreen
 import com.utsavmehta.todolist.ui.tasks.AddTaskScreen
+import com.utsavmehta.todolist.ui.tasks.FocusTimerScreen
 import com.utsavmehta.todolist.ui.tasks.TasksScreen
+import com.utsavmehta.todolist.ui.widgets.WidgetsScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -30,113 +32,92 @@ fun TodoNavHost(
 
     NavHost(
         navController = navController,
-        startDestination = Routes.HOME,
+        startDestination = Routes.TASKS,
         modifier = modifier,
     ) {
-        composable(Routes.HOME) {
-            HomeScreen(
-                isLoggedIn = isLoggedIn,
-                onGetStarted = {
-                    navController.navigateSingleTop(if (isLoggedIn) Routes.DASHBOARD else Routes.SIGNUP)
-                },
-                onLogin = { navController.navigateSingleTop(Routes.LOGIN) },
-                onViewReviews = { navController.navigateSingleTop(Routes.REVIEWS) },
+        composable(Routes.TASKS) {
+            TasksScreen(
+                onAddTask = { navController.navigateSingleTop(Routes.ADD_TASK) },
             )
         }
 
-        composable(Routes.LOGIN) { entry ->
-            GuestGuard(
-                sessionState = sessionState,
-                onAuthenticated = {
-                    if (navController.currentBackStackEntry?.id == entry.id) {
-                        navController.navigateToDashboard()
-                    }
+        composable(Routes.FOCUS) {
+            FocusTimerScreen(
+                task = null,
+                onCompleteTask = {
+                    scope.launch { snackbar.showSnackbar("Focus session completed! Great job.") }
+                    navController.popBackStack()
                 },
-            ) {
-                LoginScreen(
-                    onNavigateToSignup = {
-                        navController.navigate(Routes.SIGNUP) {
-                            popUpTo(Routes.LOGIN) { inclusive = true }
-                        }
-                    },
-                )
-            }
+                onClose = { navController.popBackStack() },
+            )
         }
 
-        composable(Routes.SIGNUP) { entry ->
-            GuestGuard(
-                sessionState = sessionState,
-                onAuthenticated = {
-                    if (navController.currentBackStackEntry?.id == entry.id) {
-                        navController.navigateToDashboard()
-                    }
-                },
-            ) {
-                SignupScreen(
-                    onNavigateToLogin = {
-                        navController.navigate(Routes.LOGIN) {
-                            popUpTo(Routes.SIGNUP) { inclusive = true }
-                        }
-                    },
-                    onSignupSuccess = {
-                        navController.navigate(Routes.LOGIN) {
-                            popUpTo(Routes.SIGNUP) { inclusive = true }
-                        }
-                        scope.launch { snackbar.showSnackbar("Account created. Please log in.") }
-                    },
-                )
-            }
+        composable(Routes.KANBAN) {
+            TasksScreen(
+                initialTab = 1,
+                onAddTask = { navController.navigateSingleTop(Routes.ADD_TASK) },
+            )
         }
 
-        composable(Routes.DASHBOARD) { entry ->
-            AuthGuard(
-                sessionState = sessionState,
-                onUnauthenticated = {
-                    if (navController.currentBackStackEntry?.id == entry.id) {
-                        navController.navigateToLogin()
-                    }
+        composable(Routes.WIDGETS) {
+            WidgetsScreen(
+                onNavigateToFocus = { task ->
+                    navController.navigateSingleTop(Routes.FOCUS)
                 },
-            ) {
-                DashboardScreen(
-                    onViewTasks = { navController.navigateSingleTop(Routes.TASKS) },
-                    onAddTask = { navController.navigateSingleTop(Routes.ADD_TASK) },
-                    onViewReviews = { navController.navigateSingleTop(Routes.REVIEWS) },
-                    onWriteReview = { navController.navigateSingleTop(Routes.WRITE_REVIEW) },
-                )
-            }
+                onNavigateToTasks = {
+                    navController.navigateSingleTop(Routes.TASKS)
+                },
+            )
         }
 
-        composable(Routes.TASKS) { entry ->
-            AuthGuard(
-                sessionState = sessionState,
-                onUnauthenticated = {
-                    if (navController.currentBackStackEntry?.id == entry.id) {
-                        navController.navigateToLogin()
-                    }
-                },
-            ) {
-                TasksScreen(
-                    onAddTask = { navController.navigateSingleTop(Routes.ADD_TASK) },
-                )
-            }
+        composable(Routes.DASHBOARD) {
+            DashboardScreen(
+                onViewTasks = { navController.navigateSingleTop(Routes.TASKS) },
+                onAddTask = { navController.navigateSingleTop(Routes.ADD_TASK) },
+                onViewReviews = { navController.navigateSingleTop(Routes.REVIEWS) },
+                onWriteReview = { navController.navigateSingleTop(Routes.WRITE_REVIEW) },
+            )
         }
 
-        composable(Routes.ADD_TASK) { entry ->
-            AuthGuard(
-                sessionState = sessionState,
-                onUnauthenticated = {
-                    if (navController.currentBackStackEntry?.id == entry.id) {
-                        navController.navigateToLogin()
+        composable(Routes.ADD_TASK) {
+            AddTaskScreen(
+                onTaskSaved = {
+                    navController.popBackStack()
+                    scope.launch { snackbar.showSnackbar("Task added successfully") }
+                },
+            )
+        }
+
+        composable(Routes.HOME) {
+            TasksScreen(
+                onAddTask = { navController.navigateSingleTop(Routes.ADD_TASK) },
+            )
+        }
+
+        composable(Routes.LOGIN) {
+            LoginScreen(
+                onNavigateToSignup = {
+                    navController.navigate(Routes.SIGNUP) {
+                        popUpTo(Routes.LOGIN) { inclusive = true }
                     }
                 },
-            ) {
-                AddTaskScreen(
-                    onTaskSaved = {
-                        navController.popBackStack()
-                        scope.launch { snackbar.showSnackbar("Task added successfully") }
-                    },
-                )
-            }
+            )
+        }
+
+        composable(Routes.SIGNUP) {
+            SignupScreen(
+                onNavigateToLogin = {
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(Routes.SIGNUP) { inclusive = true }
+                    }
+                },
+                onSignupSuccess = {
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(Routes.SIGNUP) { inclusive = true }
+                    }
+                    scope.launch { snackbar.showSnackbar("Account created. Please log in.") }
+                },
+            )
         }
 
         composable(Routes.REVIEWS) {
@@ -148,22 +129,13 @@ fun TodoNavHost(
             )
         }
 
-        composable(Routes.WRITE_REVIEW) { entry ->
-            AuthGuard(
-                sessionState = sessionState,
-                onUnauthenticated = {
-                    if (navController.currentBackStackEntry?.id == entry.id) {
-                        navController.navigateToLogin()
-                    }
+        composable(Routes.WRITE_REVIEW) {
+            WriteReviewScreen(
+                onReviewSubmitted = {
+                    navController.popBackStack()
+                    scope.launch { snackbar.showSnackbar("Review added successfully") }
                 },
-            ) {
-                WriteReviewScreen(
-                    onReviewSubmitted = {
-                        navController.popBackStack()
-                        scope.launch { snackbar.showSnackbar("Review added successfully") }
-                    },
-                )
-            }
+            )
         }
     }
 }

@@ -1,5 +1,10 @@
 package com.utsavmehta.todolist.ui.navigation
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
@@ -9,6 +14,8 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -16,7 +23,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.utsavmehta.todolist.ui.components.AboutDialog
+import com.utsavmehta.todolist.ui.theme.IndigoPrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,7 +44,30 @@ fun TodoTopBar(
     var showAboutDialog by remember { mutableStateOf(false) }
 
     TopAppBar(
-        title = { Text(title) },
+        title = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.clickable { showAboutDialog = true },
+            ) {
+                Text(
+                    text = title,
+                    fontWeight = FontWeight.Bold,
+                )
+                Spacer(Modifier.padding(horizontal = 4.dp))
+                Surface(
+                    shape = RoundedCornerShape(6.dp),
+                    color = IndigoPrimary.copy(alpha = 0.15f),
+                ) {
+                    Text(
+                        text = "Built by Utsav",
+                        color = IndigoPrimary,
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                    )
+                }
+            }
+        },
         navigationIcon = {
             if (canNavigateBack) {
                 IconButton(onClick = onNavigateBack) {
@@ -48,47 +83,27 @@ fun TodoTopBar(
                 Icon(Icons.Filled.MoreVert, contentDescription = "Menu")
             }
             DropdownMenu(expanded = menuExpanded, onDismissRequest = { menuExpanded = false }) {
-                @Composable
-                fun Item(label: String, route: String) {
-                    DropdownMenuItem(
-                        text = { Text(label) },
-                        onClick = {
-                            menuExpanded = false
-                            onNavigate(route)
-                        },
-                    )
-                }
-                Item("Home", Routes.HOME)
-                Item("Reviews", Routes.REVIEWS)
-                if (isLoggedIn) {
-                    Item("Dashboard", Routes.DASHBOARD)
-                    Item("My Tasks", Routes.TASKS)
-                    Item("Write a Review", Routes.WRITE_REVIEW)
-                    DropdownMenuItem(
-                        text = { Text("About TaskFlow") },
-                        onClick = {
-                            menuExpanded = false
-                            showAboutDialog = true
-                        },
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Log out") },
-                        onClick = {
-                            menuExpanded = false
-                            onLogout()
-                        },
-                    )
-                } else {
-                    Item("Log in", Routes.LOGIN)
-                    Item("Sign up", Routes.SIGNUP)
-                    DropdownMenuItem(
-                        text = { Text("About TaskFlow") },
-                        onClick = {
-                            menuExpanded = false
-                            showAboutDialog = true
-                        },
-                    )
-                }
+                DropdownMenuItem(
+                    text = { Text("About TaskFlow") },
+                    onClick = {
+                        menuExpanded = false
+                        showAboutDialog = true
+                    },
+                )
+                DropdownMenuItem(
+                    text = { Text("Add Task") },
+                    onClick = {
+                        menuExpanded = false
+                        onNavigate(Routes.ADD_TASK)
+                    },
+                )
+                DropdownMenuItem(
+                    text = { Text("Community Reviews") },
+                    onClick = {
+                        menuExpanded = false
+                        onNavigate(Routes.REVIEWS)
+                    },
+                )
             }
         },
     )
